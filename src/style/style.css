@@ -1,0 +1,48 @@
+.img {
+  height: 180px;
+  width: 100%;
+}
+.play {
+  position: relative;
+}
+.play button {
+  position: absolute;
+  top: 63%;
+  left: 87%;
+  transform: translate(-50%, -50%);
+  height: 50px;
+  width: 50px;
+  border-radius: 100%;
+  color: #00ff26;
+  border: none;
+  padding: 10px 20px;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+.play:hover button {
+  opacity: 1;
+}
+.error{
+  color: rgb(255, 39, 39);
+}
+.coverColor{
+  background: rgb(242,242,242);
+  background: linear-gradient(180deg, rgba(242,242,242,1) 0%, rgba(2,160,164,1) 0%, rgb(41, 40, 40) 82%);
+  color: white;
+  padding-top: 10px;
+}
+.imagecover{
+  display: flex;
+  justify-content: center;
+  margin:30px 0px;
+}
+
+.Navbar{
+  margin-left: 20px;
+  /* color: #fc2b2b; */
+}
+.hovering:hover{
+  color: rgb(162, 162, 162);
+}
