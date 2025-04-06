@@ -53,6 +53,7 @@ function Account() {
     toast.success("user logged out successfully");
     router.push("/")
   };
+console.log(userId);
 
   return (
     <Container maxWidth="xl" component="main">

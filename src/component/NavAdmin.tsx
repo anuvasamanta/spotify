@@ -37,13 +37,14 @@ export default function NavAdmin() {
                 borderRadius: "19px",
               }}
             >
+             
               <Box component="ul" aria-labelledby="category-a" sx={{ pl: 1 }}>
-                <Typography sx={{ margin: "20px 0px 45px 0px", width: "80px" }}>
-                  <Link href="/">
-                    <img src="assert/logo (1).png" alt="logo" />
+                <Typography sx={{ margin: "20px 0px 45px 0px" ,width:"80px"}}>
+                <Link href='/'>
+                  <img src="assert/logo (1).png" alt="logo" />
                   </Link>
                 </Typography>
-
+              
                 <Link href="/home">
                   {" "}
                   <Typography sx={{ fontSize: "11px" }}>

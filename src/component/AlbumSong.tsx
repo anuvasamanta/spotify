@@ -28,7 +28,7 @@ function AlbumSong() {
           }
         };
         handelLoginSession();
-      }, []);
+      }, [album]);
       const fetchAllAlbum = async (userId: string) => {
         const { data, error } = await supabase
           .from("albums")

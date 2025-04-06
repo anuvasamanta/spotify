@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { useTheme } from "@mui/material/styles";
+
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -10,7 +10,7 @@ import "@/style/style.css";
 import { Button, Grid } from "@mui/material";
 import { myAppHook } from "@/hook/userContext";
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
-import { SongType } from "@/interface/song";
+
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 const titleDescription = (song_title: string, wordLimit: number) => {
   const words = song_title.split(" ");

@@ -5,9 +5,6 @@ import {
   Button,
   Container,
   Grid,
-  ListItem,
-  Paper,
-  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -25,9 +22,8 @@ export default function Submission() {
   const {
     register,
     handleSubmit,
-    setValue,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm();
 
   useEffect(() => {
@@ -47,7 +43,7 @@ export default function Submission() {
       }
     };
     handelLoginSession();
-  }, []);
+  }, [setIsLoggedIn,setAuthToken]);
 
   // form submit
   const onSubmit = async (formData: ContactType | any) => {

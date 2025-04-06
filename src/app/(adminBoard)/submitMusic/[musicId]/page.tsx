@@ -10,10 +10,7 @@ import {
   Button,
   Container,
   Grid,
-  ListItem,
   MenuItem,
-  Paper,
-  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -38,7 +35,6 @@ export default function Edit({ params }: { params: { musicId: string } }) {
     handleSubmit,
     setValue,
     reset,
-    formState: { errors, isSubmitting },
   } = useForm();
   const fetchSong=async()=>{
     const {data,error}=await supabase.from("song").select("*").eq("id",songId);
@@ -120,12 +116,6 @@ export default function Edit({ params }: { params: { musicId: string } }) {
       audioPath = await uploadAudioFile(formData.song_url);
       if (!audioPath) return;
     }
-    // const { data, error } = await supabase.from("song").update({
-    //   ...formData,
-    //   id: songId,
-    //   song_img: imagePath,
-    //   song_url: audioPath,
-    // }).eq("id",songId);
     if (selectedAlbum) {
       const { data, error } = await supabase.from("song").update({
         ...formData,

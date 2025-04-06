@@ -1,20 +1,16 @@
 "use client";
 import {
-  Box,
   Button,
   Typography,
-  Container,
   Grid,
   ImageListItem,
   Paper,
 } from "@mui/material";
-import FavoriteBorderSharpIcon from '@mui/icons-material/FavoriteBorderSharp';
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
 import { SongType } from "@/interface/song";
 import "@/style/style.css";
 import { myAppHook } from "@/hook/userContext";
-
 const titleDescription = (song_title: string, wordLimit: number) => {
   const words = song_title.split(" ");
   if (words.length > wordLimit) {

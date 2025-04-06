@@ -34,7 +34,7 @@ function SignIn() {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, errors },
+    formState: { errors },
   } = useForm();
   const onSubmit = async (formData: any) => {
     const { email, password } = formData;

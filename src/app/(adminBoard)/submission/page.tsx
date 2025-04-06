@@ -5,12 +5,7 @@ import {
   Button,
   Container,
   Grid,
-  InputLabel,
-  ListItem,
   MenuItem,
-  Paper,
-  Select,
-  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -31,8 +26,7 @@ export default function Submission() {
     register,
     handleSubmit,
     setValue,
-    reset,
-    formState: { errors, isSubmitting },
+    reset
   } = useForm();
 
   useEffect(() => {

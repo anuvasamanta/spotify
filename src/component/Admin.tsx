@@ -27,15 +27,12 @@ function Admin() {
         }
       };
       handelLoginSession();
-    }, []);
+    }, [user,userId]);
   
     console.log(user);
+    console.log(userId);
+    
   return (
-    // <Box>
-    //     <Grid container spacing={3} columnSpacing={3}>
-
-    //     </Grid>
-    // </Box>
     <Box
     sx={{
       width: '100%',

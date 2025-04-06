@@ -1,8 +1,6 @@
 import {
-  Box,
   Button,
   Typography,
-  Container,
   Grid,
   ImageListItem,
   Paper,

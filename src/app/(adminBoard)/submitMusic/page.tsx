@@ -5,16 +5,12 @@ import {
   Button,
   Container,
   Grid,
-  ListItem,
-  Paper,
-  Stack,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import SubmittedSong from "@/component/SubmittedSong";
-import Albums from "@/app/albums/page";
 import AlbumSong from "@/component/AlbumSong";
 import Admin from "@/component/Admin";
 function Music() {

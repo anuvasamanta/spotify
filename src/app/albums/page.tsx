@@ -3,7 +3,7 @@ import { myAppHook } from "@/hook/userContext";
 import { Grid, ImageListItem, Paper, Typography } from "@mui/material";
 import Link from "next/link";
 import React from "react";
-
+import '@/style/style.css'
 function Albums() {
   const { albums } = myAppHook();
 
@@ -31,8 +31,8 @@ function Albums() {
                   }}
                 >
                   <img
-                    className="img"
-                    height="70px"
+                    className="songimg"
+                   
                     src={`${data?.cover_img}?w=164&h=164&fit=crop&auto=format`}
                     alt="song"
                     loading="lazy"

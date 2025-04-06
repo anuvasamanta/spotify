@@ -26,7 +26,7 @@ function SignUp() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm();
   const onSubmit = async (formData: any) => {
     const { fullName, email, password } = formData;

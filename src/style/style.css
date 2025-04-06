@@ -1,6 +1,7 @@
 .img {
   height: 180px;
   width: 100%;
+  
 }
 .play {
   position: relative;
@@ -45,4 +46,10 @@
 }
 .hovering:hover{
   color: rgb(162, 162, 162);
+}
+.songimg{
+  height: 70px;
+}
+.logo{
+  width: 100px;
 }

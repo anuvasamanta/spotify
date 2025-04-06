@@ -4,9 +4,6 @@ import {
   Box,
   Container,
   Grid,
-  ListItem,
-  Paper,
-  Stack,
   Typography,
 } from "@mui/material";
 import React from "react";

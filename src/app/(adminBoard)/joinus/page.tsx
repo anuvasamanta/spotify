@@ -5,7 +5,6 @@ import {
   Button,
   Container,
   Grid,
-  Paper,
   TextField,
   Typography,
 } from "@mui/material";
@@ -24,7 +23,6 @@ export default function Join() {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
   } = useForm();
 
   useEffect(() => {
@@ -54,6 +52,8 @@ export default function Join() {
       ...formData,
       user_id: userId,
     });
+    console.log(data);
+    
     if (error) {
       toast.error("Data not submitted");
     } else {

@@ -85,6 +85,12 @@ export default function SideBar() {
               <ListItemText className="Navbar">Search</ListItemText>
             </ListItem>
           </Link>
+          <Link href="/likedSong" className="hovering">
+            <ListItem>
+              <FavoriteBorderOutlinedIcon />
+              <ListItemText className="Navbar">Liked Song</ListItemText>
+            </ListItem>
+          </Link>
         </List>
       </List>
     </Box>

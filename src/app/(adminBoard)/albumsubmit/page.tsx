@@ -5,9 +5,6 @@ import {
   Button,
   Container,
   Grid,
-  ListItem,
-  Paper,
-  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -18,9 +15,6 @@ import { supabase } from "../../../../lib/supabaseClient";
 import toast from "react-hot-toast";
 import { Albums } from "@/interface/song";
 import Admin from "@/component/Admin";
-
-
-
 export default function AlbumSubmit() {
   const [userId, setUserId] = useState<number| null | string>(null);
   const { setAuthToken, setIsLoggedIn, isLoggedIn, setIsLoading } = myAppHook();
@@ -28,7 +22,6 @@ export default function AlbumSubmit() {
     register,
     handleSubmit,
     setValue,reset,
-    formState: { errors, isSubmitting },
   } = useForm();
 
   useEffect(() => {
@@ -48,7 +41,7 @@ export default function AlbumSubmit() {
       }
     };
     handelLoginSession();
-  }, []);
+  }, [setIsLoading,setIsLoggedIn]);
 
   // upload Image
   const uploadImageFile = async (file: File) => {

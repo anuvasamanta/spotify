@@ -3,28 +3,23 @@ import {
   Avatar,
   Box,
   Button,
-  Checkbox,
   Container,
-  FormControlLabel,
   Grid,
   Paper,
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import GoogleIcon from "@mui/icons-material/Google";
-import { useRouter } from "next/navigation";
 import { supabase } from "../../../../lib/supabaseClient";
 import '@/style/style.css'
 
 
 function ForgotPassword() {
-  const router = useRouter();
-  const {register,handleSubmit,formState:{
-    isSubmitting,errors
+  const {register,handleSubmit,formState:{errors
   }}=useForm();
   const onSubmit=async(formData:any)=>{
     const {email}=formData;

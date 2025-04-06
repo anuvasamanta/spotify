@@ -149,7 +149,7 @@ const [selectedSong, setSelectedSong] =useState<[] | any | null>(null);
       setAuthToken(token);
       setIsLoggedIn(true);
     }
-  }, [setSong]);
+  }, [setSong,setAlbums]);
   // console.log("song",song);
 
   return (

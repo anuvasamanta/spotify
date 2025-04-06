@@ -16,9 +16,9 @@ import {
   Typography,
 } from "@mui/material";
 import "@/style/style.css";
-import { SongType } from "@/interface/song";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import Link from "next/link";
+
 function AlbumSong({ params }: { params: { songId: string } }) {
   const {
     song,
