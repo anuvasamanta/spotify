@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabaseClient';
 import { myAppHook } from '@/hook/userContext';
 import toast from 'react-hot-toast';
-import { Box, Card, CardActionArea, CardContent, Grid, Typography } from '@mui/material';
+import { Box, Card, CardActionArea, CardContent, Typography } from '@mui/material';
 
 function Admin() {
     const { setAuthToken, setIsLoading, setIsLoggedIn } = myAppHook();
@@ -27,7 +27,7 @@ function Admin() {
         }
       };
       handelLoginSession();
-    }, [user,userId]);
+    }, [user,userId,setAuthToken,setIsLoading,setIsLoggedIn]);
   
     console.log(user);
     console.log(userId);

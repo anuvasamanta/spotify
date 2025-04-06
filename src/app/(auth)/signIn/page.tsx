@@ -3,15 +3,13 @@ import {
   Avatar,
   Box,
   Button,
-  Checkbox,
   Container,
-  FormControlLabel,
   Grid,
   Paper,
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -24,13 +22,13 @@ import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp';
 import '@/style/style.css'
 function SignIn() {
   const router = useRouter();
-  const { isLoggedIn, setIsLoggedIn, setAuthToken, setIsLoading } = myAppHook();
+  const { isLoggedIn, setIsLoggedIn, setAuthToken } = myAppHook();
   useEffect(() => {
     if (isLoggedIn) {
       router.push("/");
       return;
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn,router]);
   const {
     register,
     handleSubmit,
@@ -56,6 +54,7 @@ function SignIn() {
         .eq("user_id", data?.user?.id)
         .single();
         // console.log(profileData);
+      console.error(profileError);
       
         // Check if user is an admin 
         if (profileData?.is_admin) {

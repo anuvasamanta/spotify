@@ -18,7 +18,7 @@ import Admin from "@/component/Admin";
 
 export default function Join() {
   const [userId, setUserId] = useState<number | null | string>(null);
-  const { setAuthToken, setIsLoggedIn, isLoggedIn, setIsLoading } = myAppHook();
+  const { setAuthToken, setIsLoggedIn, setIsLoading } = myAppHook();
   const {
     register,
     handleSubmit,
@@ -42,7 +42,7 @@ export default function Join() {
       }
     };
     handelLoginSession();
-  }, []);
+  }, [setAuthToken,setIsLoading,setIsLoggedIn]);
 
   // form submit
   const onSubmit = async (formData:JoinUs | any) => {

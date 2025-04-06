@@ -1,11 +1,12 @@
 "use client";
 import { myAppHook } from "@/hook/userContext";
-import React, { useRef, useState } from "react";
+import React from "react";
 import PauseIcon from "@mui/icons-material/Pause";
 import Box from "@mui/material/Box";
 import ArrowBackSharpIcon from "@mui/icons-material/ArrowBackSharp";
 import {
   Button,
+  CardMedia,
   Grid,
   List,
   ListItem,
@@ -54,7 +55,8 @@ function AlbumSong({ params }: { params: { songId: string } }) {
                       size={{ xs: 12, md: 3 }}
                       sx={{ borderRadius: "10px", margin: "20px" }}
                     >
-                      <img src={`${data?.cover_img}`} alt="" />
+                      
+                      <CardMedia sx={{height:"200px"}} component="img" src={`${data?.cover_img}`} alt="Image "/>
                     </Grid>
                     <Grid size={{ xs: 12, md: 6 }}>
                       <Typography
@@ -95,7 +97,8 @@ function AlbumSong({ params }: { params: { songId: string } }) {
                             backgroundColor: "rgb(41, 40, 40)",
                           }}
                         >
-                          <img src={`${data?.song_img}`} alt="" />
+                          {/* <img src={`${data?.song_img}`} alt="" /> */}
+                          <CardMedia src={`${data?.song_img}`} component='img' alt="img"/>
                         </Paper>
                       </ListItemIcon>
                       <ListItemText sx={{ textAlign: "center" }}>

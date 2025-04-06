@@ -11,17 +11,17 @@ interface UserContextType {
   setIsLoading: (state: boolean) => void;
   song: SongType[] | null;
   albums: Albums[] | null;
-  currentSong: SongType[] | null | any;
+  currentSong: SongType[] | null;
   isPlaying: boolean;
   audioRef: HTMLAudioElement | null | any;
   handlePlay: SongType[] | any;
-  setIsPlaying:(state:any) => void;
+  setIsPlaying:(state:boolean) => void;
   searchQuery:string;
   setSearchQuery:(state:any) => void;
   searchResult:SongType[] | Albums[] | null;
   setSearchResult:(state:any) => void;
-  selectedSong:[] | any;
-  setSelectedSong:(state:any) => void;
+  selectedSong:[] | SongType[];
+  setSelectedSong:(state:boolean) => void;
   handelSearch:any;
 }
 
@@ -120,6 +120,7 @@ const [selectedSong, setSelectedSong] =useState<[] | any | null>(null);
         setFetchError("could not fetch");
         setSong(null);
         console.log(error);
+        console.log(fetchError);
       }
       if (data) {
         setSong(data);
@@ -151,6 +152,10 @@ const [selectedSong, setSelectedSong] =useState<[] | any | null>(null);
     }
   }, [setSong,setAlbums]);
   // console.log("song",song);
+  console.log(authToken);
+  console.log(isLoading);
+  
+  
 
   return (
     <AuthContext.Provider

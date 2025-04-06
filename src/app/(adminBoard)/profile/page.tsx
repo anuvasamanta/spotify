@@ -42,7 +42,7 @@ function Account() {
       }
     };
     handelLoginSession();
-  }, []);
+  }, [setAuthToken,setIsLoading,setIsLoggedIn]);
 
   console.log(user);
   const handelLogOut = async () => {

@@ -8,16 +8,17 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { myAppHook } from "@/hook/userContext";
 import { useForm } from "react-hook-form";
 import { supabase } from "../../../../lib/supabaseClient";
 import toast from "react-hot-toast";
 import { Albums } from "@/interface/song";
 import Admin from "@/component/Admin";
+
 export default function AlbumSubmit() {
   const [userId, setUserId] = useState<number| null | string>(null);
-  const { setAuthToken, setIsLoggedIn, isLoggedIn, setIsLoading } = myAppHook();
+  const { setAuthToken, setIsLoggedIn, setIsLoading } = myAppHook();
   const {
     register,
     handleSubmit,
@@ -41,7 +42,7 @@ export default function AlbumSubmit() {
       }
     };
     handelLoginSession();
-  }, [setIsLoading,setIsLoggedIn]);
+  }, [setIsLoading,setIsLoggedIn,setAuthToken]);
 
   // upload Image
   const uploadImageFile = async (file: File) => {
@@ -50,6 +51,7 @@ export default function AlbumSubmit() {
     const { data, error } = await supabase.storage
       .from("album-cover")
       .upload(fileName, file);
+      console.log(data);
     if (error) {
       toast.error("failed to upload");
       return null;
@@ -59,7 +61,7 @@ export default function AlbumSubmit() {
   };
  
   // form submit
-  const onSubmit = async (formData:Albums | any) => {
+  const onSubmit = async (formData:Albums |any ) => {
     // console.log("form data", formData);
     setIsLoading(true);
     let imagePath = formData.cover_img;
@@ -119,7 +121,6 @@ export default function AlbumSubmit() {
                   }}
                    helperText="Please select your cover image"
                 >
-                  <img src="assert/fi_upload-cloud.png" alt="upload" />
                 </TextField>
                 </Box>
                 <Grid sx={{ display: "flex", gap: 2, marginBottom: 2 }} columnSpacing={3} container spacing={3}>

@@ -82,6 +82,8 @@ export default function Edit({ params }: { params: { musicId: string } }) {
     const { data, error } = await supabase.storage
       .from("song-image")
       .upload(fileName, file);
+      console.log(data);
+      
     if (error) {
       toast.error("failed to upload");
       return null;
@@ -96,6 +98,7 @@ export default function Edit({ params }: { params: { musicId: string } }) {
     const { data, error } = await supabase.storage
       .from("song-url")
       .upload(fileName, file);
+      console.log(data);
     if (error) {
       toast.error("fialed to upload audio");
       return null;
@@ -124,6 +127,8 @@ export default function Edit({ params }: { params: { musicId: string } }) {
       song_url: audioPath,
         album_id:selectedAlbum
       }).eq("id",songId);
+      console.log("select album",data);
+      
     if (error) {
       toast.error("failed to update  song");
     } else {
@@ -172,7 +177,7 @@ export default function Edit({ params }: { params: { musicId: string } }) {
                      helperText="Please select your song image"
                 >
 
-                  <img src="assert/fi_upload-cloud.png" alt="upload" />
+               
                 </TextField>
                 </Box>
                 <Grid

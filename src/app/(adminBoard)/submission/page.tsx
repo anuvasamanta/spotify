@@ -19,7 +19,7 @@ import Admin from "@/component/Admin";
 import '@/style/style.css'
 export default function Submission() {
   const [userId, setUserId] = useState<number | null | string>(null);
-  const { setAuthToken, setIsLoggedIn, isLoggedIn, setIsLoading } = myAppHook();
+  const { setAuthToken, setIsLoggedIn, setIsLoading } = myAppHook();
   const [album, setAlbums] = useState<Albums[]>([]);
   const [selectedAlbum, setSelectedAlbum] = useState<number | null>(null);
   const {
@@ -55,7 +55,7 @@ export default function Submission() {
       }
     };
     handelLoginSession();
-  }, []);
+  }, [setAuthToken,setIsLoading,setIsLoggedIn]);
 
   // upload Image
   const uploadImageFile = async (file: File) => {
@@ -64,6 +64,8 @@ export default function Submission() {
     const { data, error } = await supabase.storage
       .from("song-image")
       .upload(fileName, file);
+      console.log(data);
+      
     if (error) {
       toast.error("failed to upload");
       return null;
@@ -78,6 +80,8 @@ export default function Submission() {
     const { data, error } = await supabase.storage
       .from("song-url")
       .upload(fileName, file);
+      console.log(data);
+      
     if (error) {
       toast.error("fialed to upload audio");
       return null;
@@ -108,6 +112,7 @@ export default function Submission() {
         album_id:selectedAlbum
       });
       // console.log(selectedAlbum);
+      console.log(data);
       
       if (error) {
         toast.error("failed to add  song");
@@ -156,7 +161,6 @@ export default function Submission() {
                   }}
                      helperText="Please select your song image"
                 >
-                  <img src="assert/fi_upload-cloud.png" alt="upload" />
                 </TextField>
                 </Box>
                 <Grid

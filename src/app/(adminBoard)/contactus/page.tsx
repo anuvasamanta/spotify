@@ -16,9 +16,10 @@ import toast from "react-hot-toast";
 import { ContactType } from "@/interface/song";
 import "@/style/style.css";
 import Admin from "@/component/Admin";
+import Image from "next/image";
 export default function Submission() {
   const [userId, setUserId] = useState<number | null | string>(null);
-  const { setAuthToken, setIsLoggedIn, isLoggedIn, setIsLoading } = myAppHook();
+  const { setAuthToken, setIsLoggedIn, setIsLoading } = myAppHook();
   const {
     register,
     handleSubmit,
@@ -43,7 +44,7 @@ export default function Submission() {
       }
     };
     handelLoginSession();
-  }, [setIsLoggedIn,setAuthToken]);
+  }, [setIsLoggedIn,setAuthToken,setIsLoading]);
 
   // form submit
   const onSubmit = async (formData: ContactType | any) => {
@@ -53,6 +54,8 @@ export default function Submission() {
       ...formData,
       user_id: userId,
     });
+    console.log(data);
+    
     if (error) {
       toast.error("Data not submitted");
     } else {
@@ -65,6 +68,7 @@ export default function Submission() {
     <Container maxWidth="xl" component="main">
       <Box sx={{ display: "flex" }}>
         <NavAdmin />
+        <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
         <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
           <Grid container spacing={2} sx={{ marginLeft: 9 }}>
             <Admin />
@@ -116,7 +120,8 @@ export default function Submission() {
                   <Typography variant="body2">music12@gmail.com</Typography>
                 </Grid>
                 <Grid size={{ xs: 12, md: 6 }}>
-                  <img src="assert/images 1.png" alt="map" />
+                  <Image src="/assert/images 1.png" alt="Image " width={400} height={300} />
+
                 </Grid>
               </Grid>
 
@@ -197,6 +202,7 @@ export default function Submission() {
               </Box>
             </Grid>
           </Grid>
+        </Container>
         </Container>
       </Box>
     </Container>

@@ -8,12 +8,10 @@ import List from "@mui/material/List";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Button, Container, ListItem, ListItemText } from "@mui/material";
+import { Button, CardMedia, ListItem, ListItemText } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
-import LibraryAddCheckOutlinedIcon from "@mui/icons-material/LibraryAddCheckOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { myAppHook } from "@/hook/userContext";
 import { supabase } from "../../lib/supabaseClient";
 import toast from "react-hot-toast";
@@ -23,7 +21,7 @@ import SearchBar from "./SearchBar";
 const drawerWidth = 240;
 
 export default function SideBar() {
-  const router = useRouter();
+
   // LogOut
   const { isLoggedIn, setIsLoggedIn, setAuthToken } = myAppHook();
   const handelLogOut = async () => {
@@ -58,17 +56,12 @@ export default function SideBar() {
       setMobileOpen(!mobileOpen);
     }
   };
-  const emoji = [
-    <HomeIcon />,
-    <SearchIcon />,
-    <LibraryAddCheckOutlinedIcon />,
-    <FavoriteBorderOutlinedIcon />,
-  ];
   const drawer = (
     <Box sx={{ backgroundColor: "black", color: "white", height: 650 }}>
       <Toolbar>
         <Box sx={{width:"100px"}}>
-       <img src="assert/logo (1).png" alt="logo" />
+       {/* <img src="assert/logo (1).png" alt="logo" /> */}
+       <CardMedia src="assert/logo (1).png" alt="logo" component='img'/>
        </Box>
       </Toolbar>
       <List>

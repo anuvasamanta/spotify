@@ -4,6 +4,7 @@ import {
   Grid,
   ImageListItem,
   Paper,
+  CardMedia,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useEffect } from "react";
@@ -17,7 +18,7 @@ import { supabase } from "../../lib/supabaseClient";
 function SubmittedSong() {
   const [user, setUserId] = useState<any>(null);
   const [song, setSong] = useState<SongType[] | null >(null);
-  const { setAuthToken, setIsLoggedIn, isLoggedIn, setIsLoading } = myAppHook();
+  const { setAuthToken, setIsLoggedIn, setIsLoading } = myAppHook();
   useEffect(() => {
     const handelLoginSession = async () => {
       const { data, error } = await supabase.auth.getSession();
@@ -36,19 +37,21 @@ function SubmittedSong() {
       }
     };
     handelLoginSession();
-  }, []);
+  }, [setAuthToken,setIsLoading,setIsLoggedIn]);
 
   const fetchAllSong = async (userId: string) => {
     const { data, error } = await supabase
       .from("song")
       .select("*")
       .eq("user_id", userId);
+      console.error(error)
     // console.log("data", data);
     if (data) {
       setSong(data);
     }
   };
   // console.log("song", song);
+console.log("user",user);
 
   const handelDelete = async (id: number) => {
     Swal.fire({
@@ -65,6 +68,8 @@ function SubmittedSong() {
           .from("song")
           .delete()
           .eq("id", id);
+          console.log(data);
+          
         if (error) {
           toast.error("failed");
         } else {
@@ -94,11 +99,7 @@ function SubmittedSong() {
           >
             <ImageListItem key={data?.id} sx={{ height: "100px" }}>
               <Paper elevation={8}>
-                <img  className="img"
-                  src={`${data?.song_img}?w=164&h=164&fit=crop&auto=format`}
-                  alt="song"
-                  loading="lazy"
-                />
+                <CardMedia src={`${data?.song_img}`} component='img' alt="img" sx={{height:"160px"}}/>
               </Paper>
               <Typography variant="body2" sx={{ margin: "8px 0px" }}>
                 {data?.song_title}

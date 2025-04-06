@@ -1,9 +1,11 @@
+
+
 export interface SongType{
    user_id?:number | string,
    album_title:string,
    artist_name:string,
    song_title:string,
-   song_category:string,
+   song_category:string ,
    song_img:string | File | null;
    song_url:string | File | null;
    id?:null | number | string ;
@@ -38,3 +40,5 @@ export interface Albums{
    id?:number;
    cover_img:string | File | null
 }
+
+

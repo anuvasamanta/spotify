@@ -5,6 +5,7 @@ import {
   Grid,
   ImageListItem,
   Paper,
+  CardMedia,
 } from "@mui/material";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
@@ -19,10 +20,8 @@ const titleDescription = (song_title: string, wordLimit: number) => {
   return song_title;
 };
 function Songs() {
-  const { song,  currentSong,
-    isPlaying,
-    audioRef,
-    handlePlay,setIsPlaying } = myAppHook();
+  const { song, currentSong, isPlaying, audioRef, handlePlay, setIsPlaying } =
+    myAppHook();
   return (
     <Grid
       container
@@ -30,7 +29,7 @@ function Songs() {
       columns={{ xs: 4, sm: 8, md: 12 }}
     >
       {song &&
-        song.map((data: SongType | any) => (
+        song.map((data: SongType[] | any) => (
           <Grid
             key={data?.id}
             sx={{ margin: "20px 0px" }}
@@ -46,25 +45,22 @@ function Songs() {
                   borderRadius: "10px",
                 }}
               >
-                <img
-                  className="img"
-                  height="70px"
-                  src={`${data?.song_img}?w=164&h=164&fit=crop&auto=format`}
-                  alt="song"
-                  loading="lazy"
+                <CardMedia
+                  component="img"
+                  src={`${data?.song_img}`}
+                  alt="img"
+                  sx={{ height: "160px" }}
                 />
-
                 <Typography variant="body1" sx={{ margin: "10px 10px" }}>
-                {titleDescription(data?.song_title, 4)}
+                  {titleDescription(data?.song_title, 4)}
                 </Typography>
                 <Typography
                   variant="body2"
-                  sx={{ margin: "0px 10px", paddingBottom: "10px"}}
+                  sx={{ margin: "0px 10px", paddingBottom: "10px" }}
                 >
                   By {data?.artist_name}
-                 
                 </Typography>
-                <Button onClick={() => handlePlay(data)} >
+                <Button onClick={() => handlePlay(data)}>
                   {currentSong?.id === data.id && isPlaying ? (
                     <PauseCircleIcon />
                   ) : (

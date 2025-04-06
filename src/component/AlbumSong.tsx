@@ -5,7 +5,7 @@ import { supabase } from '../../lib/supabaseClient';
 import toast from 'react-hot-toast';
 import { Albums } from '@/interface/song';
 import Swal from "sweetalert2";
-import { Button, Grid, ImageListItem, Paper, Typography } from '@mui/material';
+import { Button, CardMedia, Grid, ImageListItem, Paper, Typography } from '@mui/material';
 function AlbumSong() {
     const {setIsLoading,setAuthToken, setIsLoggedIn}=myAppHook();
      const [album, setAlbum] = useState<Albums[] | null>(null);
@@ -28,12 +28,13 @@ function AlbumSong() {
           }
         };
         handelLoginSession();
-      }, [album]);
+      }, [album,setAuthToken,setIsLoading,setIsLoggedIn]);
       const fetchAllAlbum = async (userId: string) => {
         const { data, error } = await supabase
           .from("albums")
           .select("*")
           .eq("user_id", userId);
+          console.error(error)
         // console.log("data", data);
         if (data) {
           setAlbum(data);
@@ -55,6 +56,8 @@ function AlbumSong() {
               .from("albums")
               .delete()
               .eq("id", id);
+              console.log(data);
+              
             if (error) {
               toast.error("failed");
             } else {
@@ -84,11 +87,7 @@ function AlbumSong() {
         >
           <ImageListItem key={data?.id} sx={{ height: "100px" }}>
             <Paper elevation={8}>
-              <img  className="img"
-                src={`${data?.cover_img}?w=164&h=164&fit=crop&auto=format`}
-                alt="song"
-                loading="lazy"
-              />
+              <CardMedia  src={`${data?.cover_img}`} component='img' sx={{height:"160px"}}/>
             </Paper>
             <Typography variant="body2" sx={{ margin: "8px 0px" }}>
               {data?.title}

@@ -11,7 +11,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import CoffeeIcon from "@mui/icons-material/Coffee";
 import CallIcon from "@mui/icons-material/Call";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Typography } from "@mui/material";
+import { CardMedia, Typography } from "@mui/material";
 import Link from "next/link";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#fff",
@@ -26,9 +26,9 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function NavAdmin() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={3}>
-        <Grid container spacing={4} size={{ xs: 6, md: 7, lg: 5 }}>
-          <Grid size={{ xs: 6, lg: 3 }}>
+      <Grid container spacing={1}>
+        <Grid container spacing={2} size={{ xs: 6, md: 7, lg: 5 }}>
+          <Grid size={{ xs: 12, lg: 3 }}>
             <Item
               sx={{
                 backgroundColor: "rgb(255, 54, 54)",
@@ -41,7 +41,8 @@ export default function NavAdmin() {
               <Box component="ul" aria-labelledby="category-a" sx={{ pl: 1 }}>
                 <Typography sx={{ margin: "20px 0px 45px 0px" ,width:"80px"}}>
                 <Link href='/'>
-                  <img src="assert/logo (1).png" alt="logo" />
+                 
+                  <CardMedia src="assert/logo (1).png" alt="logo" component='img'/>
                   </Link>
                 </Typography>
               
