@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Albums, SongType } from "@/interface/song";
-import { myAppHook } from "@/hook/userContext";
+import { MyAppHook } from "@/hook/userContext";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { supabase } from "../../../../../lib/supabaseClient";
@@ -27,7 +27,7 @@ export default function Edit({ params }: { params: { musicId: string } }) {
 //   console.log("id", songId);
   const [userId, setUserId] = useState<string|number | null>(null);
   const [edit,setEdit]=useState<any>(null);
-  const { setAuthToken, setIsLoggedIn, isLoggedIn, setIsLoading } = myAppHook();
+  const { setAuthToken, setIsLoggedIn,setIsLoading } = MyAppHook();
   const [album, setAlbums] = useState<Albums[]>([]);
   const [selectedAlbum, setSelectedAlbum] = useState<number | null>(null);
   const {
@@ -72,8 +72,9 @@ export default function Edit({ params }: { params: { musicId: string } }) {
     };
     handelLoginSession();
     fetchSong()
-  }, [songId]);
+  }, [songId,setIsLoading,setIsLoading,setAuthToken,setAlbums]);
   // console.log("fetch",edit);
+  console.log(userId);
   
   // upload Image
   const uploadImageFile = async (file: File) => {

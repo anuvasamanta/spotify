@@ -1,8 +1,9 @@
 "use client";
-import { myAppHook } from "@/hook/userContext";
+import { MyAppHook } from "@/hook/userContext";
 import {
   Box,
   Button,
+  CardMedia,
   Grid,
   ImageListItem,
   Paper,
@@ -29,7 +30,7 @@ function SearchSong() {
     setIsPlaying,
     selectedSong,
     albums,
-  } = myAppHook();
+  } = MyAppHook();
   return (
     <Box>
       {selectedSong && (
@@ -54,14 +55,8 @@ function SearchSong() {
                           borderRadius: "10px",
                         }}
                       >
-                        <img
-                          className="img"
-                          height="70px"
-                          src={`${data?.song_img}?w=164&h=164&fit=crop&auto=format`}
-                          alt="song"
-                          loading="lazy"
-                        />
-
+                        <CardMedia  src={`${data?.song_img}`} alt='img' component='img'  sx={{height:"150px"}}/>
+                       
                         <Typography
                           variant="body1"
                           sx={{ margin: "10px 10px" }}
@@ -109,14 +104,7 @@ function SearchSong() {
                               borderRadius: "10px",
                             }}
                           >
-                            <img
-                              className="img"
-                              height="70px"
-                              src={`${data?.cover_img}?w=164&h=164&fit=crop&auto=format`}
-                              alt="song"
-                              loading="lazy"
-                            />
-
+                            <CardMedia  src={`${data?.cover_img}`} alt='img' component='img' sx={{height:"150px"}}/>
                             <Typography
                               variant="body1"
                               sx={{

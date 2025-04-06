@@ -9,7 +9,7 @@ import {
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { SongType } from "@/interface/song";
-import { myAppHook } from "@/hook/userContext";
+import { MyAppHook } from "@/hook/userContext";
 import toast from "react-hot-toast";
 import '@/style/style.css'
 import Swal from "sweetalert2";
@@ -18,7 +18,7 @@ import { supabase } from "../../lib/supabaseClient";
 function SubmittedSong() {
   const [user, setUserId] = useState<any>(null);
   const [song, setSong] = useState<SongType[] | null >(null);
-  const { setAuthToken, setIsLoggedIn, setIsLoading } = myAppHook();
+  const { setAuthToken, setIsLoggedIn, setIsLoading } = MyAppHook();
   useEffect(() => {
     const handelLoginSession = async () => {
       const { data, error } = await supabase.auth.getSession();

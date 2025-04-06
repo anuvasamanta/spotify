@@ -1,12 +1,12 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabaseClient';
-import { myAppHook } from '@/hook/userContext';
+import { MyAppHook } from '@/hook/userContext';
 import toast from 'react-hot-toast';
 import { Box, Card, CardActionArea, CardContent, Typography } from '@mui/material';
 
 function Admin() {
-    const { setAuthToken, setIsLoading, setIsLoggedIn } = myAppHook();
+    const { setAuthToken, setIsLoading, setIsLoggedIn } = MyAppHook();
     const [userId, setUserId] = useState<number | null | string>(null);
     const [user, setUser] = useState<any | null>(null);
     useEffect(() => {

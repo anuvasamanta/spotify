@@ -11,7 +11,7 @@ interface UserContextType {
   setIsLoading: (state: boolean) => void;
   song: SongType[] | null;
   albums: Albums[] | null;
-  currentSong: SongType[] | null;
+  currentSong: SongType[] | null  | any;
   isPlaying: boolean;
   audioRef: HTMLAudioElement | null | any;
   handlePlay: SongType[] | any;
@@ -20,8 +20,8 @@ interface UserContextType {
   setSearchQuery:(state:any) => void;
   searchResult:SongType[] | Albums[] | null;
   setSearchResult:(state:any) => void;
-  selectedSong:[] | SongType[];
-  setSelectedSong:(state:boolean) => void;
+  selectedSong:[] | SongType[] | any;
+  setSelectedSong:(state:boolean | any) => void;
   handelSearch:any;
 }
 
@@ -37,7 +37,7 @@ export const AuthContextProvider = ({
   const [isLoading, setIsLoading] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>();
 
-  const [song, setSong] = useState<SongType[] | null>(null);
+  const [song, setSong] = useState<SongType[] | null | any>(null);
   const [albums, setAlbums] = useState<Albums[] | null>(null);
 
   const [currentSong, setCurrentSong] = useState<SongType[] | null | any>(null);
@@ -150,7 +150,7 @@ const [selectedSong, setSelectedSong] =useState<[] | any | null>(null);
       setAuthToken(token);
       setIsLoggedIn(true);
     }
-  }, [setSong,setAlbums]);
+  }, [setSong,setAlbums,fetchError]);
   // console.log("song",song);
   console.log(authToken);
   console.log(isLoading);
@@ -186,7 +186,7 @@ const [selectedSong, setSelectedSong] =useState<[] | any | null>(null);
   );
 };
 
-export const myAppHook = () => {
+export const MyAppHook = () => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error("App context function must be wrapped");

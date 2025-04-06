@@ -1,5 +1,5 @@
 "use client"
-import { myAppHook } from '@/hook/userContext'
+import { MyAppHook } from '@/hook/userContext'
 import React, { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabaseClient';
 import toast from 'react-hot-toast';
@@ -7,7 +7,7 @@ import { Albums } from '@/interface/song';
 import Swal from "sweetalert2";
 import { Button, CardMedia, Grid, ImageListItem, Paper, Typography } from '@mui/material';
 function AlbumSong() {
-    const {setIsLoading,setAuthToken, setIsLoggedIn}=myAppHook();
+    const {setIsLoading,setAuthToken, setIsLoggedIn}=MyAppHook();
      const [album, setAlbum] = useState<Albums[] | null>(null);
      const [user, setUserId] = useState<any>(null);
      useEffect(() => {
@@ -72,6 +72,7 @@ function AlbumSong() {
         
         setIsLoading(true)
       };
+      console.log(user);
   return (
     <Grid
     container

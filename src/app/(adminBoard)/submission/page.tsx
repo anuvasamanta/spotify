@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Albums, SongType } from "@/interface/song";
-import { myAppHook } from "@/hook/userContext";
+import { MyAppHook } from "@/hook/userContext";
 import { useForm } from "react-hook-form";
 import { supabase } from "../../../../lib/supabaseClient";
 import toast from "react-hot-toast";
@@ -19,7 +19,7 @@ import Admin from "@/component/Admin";
 import '@/style/style.css'
 export default function Submission() {
   const [userId, setUserId] = useState<number | null | string>(null);
-  const { setAuthToken, setIsLoggedIn, setIsLoading } = myAppHook();
+  const { setAuthToken, setIsLoggedIn, setIsLoading } = MyAppHook();
   const [album, setAlbums] = useState<Albums[]>([]);
   const [selectedAlbum, setSelectedAlbum] = useState<number | null>(null);
   const {

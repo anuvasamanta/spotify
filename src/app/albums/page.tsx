@@ -1,5 +1,5 @@
 "use client";
-import { myAppHook } from "@/hook/userContext";
+import { MyAppHook } from "@/hook/userContext";
 import {
   CardMedia,
   Grid,
@@ -11,7 +11,7 @@ import Link from "next/link";
 import React from "react";
 
 function Albums() {
-  const { albums } = myAppHook();
+  const { albums } = MyAppHook();
 
   return (
     <Grid

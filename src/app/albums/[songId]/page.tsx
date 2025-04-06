@@ -1,5 +1,5 @@
 "use client";
-import { myAppHook } from "@/hook/userContext";
+import { MyAppHook } from "@/hook/userContext";
 import React from "react";
 import PauseIcon from "@mui/icons-material/Pause";
 import Box from "@mui/material/Box";
@@ -29,7 +29,7 @@ function AlbumSong({ params }: { params: { songId: string } }) {
     audioRef,
     handlePlay,
     setIsPlaying,
-  } = myAppHook();
+  } = MyAppHook();
   //   console.log(song);
   //   console.log(albums);
   console.log(params.songId);

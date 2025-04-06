@@ -11,7 +11,7 @@ import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
 import { SongType } from "@/interface/song";
 import "@/style/style.css";
-import { myAppHook } from "@/hook/userContext";
+import { MyAppHook } from "@/hook/userContext";
 const titleDescription = (song_title: string, wordLimit: number) => {
   const words = song_title.split(" ");
   if (words.length > wordLimit) {
@@ -21,7 +21,7 @@ const titleDescription = (song_title: string, wordLimit: number) => {
 };
 function Songs() {
   const { song, currentSong, isPlaying, audioRef, handlePlay, setIsPlaying } =
-    myAppHook();
+    MyAppHook();
   return (
     <Grid
       container

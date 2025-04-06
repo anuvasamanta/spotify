@@ -17,12 +17,12 @@ import toast from "react-hot-toast";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../../../lib/supabaseClient";
-import { myAppHook } from "@/hook/userContext";
+import { MyAppHook } from "@/hook/userContext";
 import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp';
 import '@/style/style.css'
 function SignIn() {
   const router = useRouter();
-  const { isLoggedIn, setIsLoggedIn, setAuthToken } = myAppHook();
+  const { isLoggedIn, setIsLoggedIn, setAuthToken } = MyAppHook();
   useEffect(() => {
     if (isLoggedIn) {
       router.push("/");

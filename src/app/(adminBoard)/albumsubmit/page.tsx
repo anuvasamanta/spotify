@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { FormEvent, useEffect, useState } from "react";
-import { myAppHook } from "@/hook/userContext";
+import { MyAppHook } from "@/hook/userContext";
 import { useForm } from "react-hook-form";
 import { supabase } from "../../../../lib/supabaseClient";
 import toast from "react-hot-toast";
@@ -18,7 +18,7 @@ import Admin from "@/component/Admin";
 
 export default function AlbumSubmit() {
   const [userId, setUserId] = useState<number| null | string>(null);
-  const { setAuthToken, setIsLoggedIn, setIsLoading } = myAppHook();
+  const { setAuthToken, setIsLoggedIn, setIsLoading } = MyAppHook();
   const {
     register,
     handleSubmit,
@@ -75,9 +75,11 @@ export default function AlbumSubmit() {
       user_id:userId,
       cover_img:imagePath,
     })
+
     if(error){
       toast.error("failed to add  album")
     }else{
+      console.log(data);
       toast.success("album is submitted successfully")
     }
     reset();

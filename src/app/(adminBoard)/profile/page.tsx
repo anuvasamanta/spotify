@@ -1,6 +1,6 @@
 "use client";
 
-import { myAppHook } from "@/hook/userContext";
+import { MyAppHook } from "@/hook/userContext";
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../../../lib/supabaseClient";
 import toast from "react-hot-toast";
@@ -21,7 +21,7 @@ import Admin from "@/component/Admin";
 
 function Account() {
   const router=useRouter();
-  const { setAuthToken, setIsLoading, setIsLoggedIn } = myAppHook();
+  const { setAuthToken, setIsLoading, setIsLoggedIn } = MyAppHook();
   const [userId, setUserId] = useState<number | null | string>(null);
   const [user, setUser] = useState<any | null>(null);
   useEffect(() => {

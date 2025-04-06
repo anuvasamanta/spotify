@@ -8,7 +8,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import "@/style/style.css";
 import { Button, Grid } from "@mui/material";
-import { myAppHook } from "@/hook/userContext";
+import { MyAppHook } from "@/hook/userContext";
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
 
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
@@ -22,7 +22,7 @@ const titleDescription = (song_title: string, wordLimit: number) => {
 
 export default function CardSong() {
   const { song, currentSong, isPlaying, audioRef, handlePlay, setIsPlaying } =
-    myAppHook();
+    MyAppHook();
   return (
     <Grid
       container

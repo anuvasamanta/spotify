@@ -4,7 +4,7 @@ import { styled, alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { myAppHook } from "@/hook/userContext";
+import { MyAppHook } from "@/hook/userContext";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -52,7 +52,7 @@ export default function SearchBar() {
     searchQuery,
     setSearchQuery,
     handelSearch
-  } = myAppHook();
+  } = MyAppHook();
   return (
    
       <Box sx={{ flexGrow: 1 }} component="form" onSubmit={handelSearch}>

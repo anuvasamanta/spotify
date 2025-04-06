@@ -12,7 +12,7 @@ import { Button, CardMedia, ListItem, ListItemText } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import Link from "next/link";
-import { myAppHook } from "@/hook/userContext";
+import { MyAppHook } from "@/hook/userContext";
 import { supabase } from "../../lib/supabaseClient";
 import toast from "react-hot-toast";
 import "@/style/style.css";
@@ -23,7 +23,7 @@ const drawerWidth = 240;
 export default function SideBar() {
 
   // LogOut
-  const { isLoggedIn, setIsLoggedIn, setAuthToken } = myAppHook();
+  const { isLoggedIn, setIsLoggedIn, setAuthToken } = MyAppHook();
   const handelLogOut = async () => {
     localStorage.removeItem("access_token");
     setIsLoggedIn(false);
