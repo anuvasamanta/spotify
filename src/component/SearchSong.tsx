@@ -13,6 +13,7 @@ import React from "react";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
 import Link from "next/link";
+import { Albums, SongType } from "@/interface/song";
 const titleDescription = (song_title: string, wordLimit: number) => {
   const words = song_title.split(" ");
   if (words.length > wordLimit) {
@@ -37,7 +38,7 @@ function SearchSong() {
         <Grid>
           <Typography>searching....</Typography>
           {song &&
-            song.map((data: any) => {
+            song.map((data:SongType) => {
               if (data?.id === selectedSong.id) {
                 return (
                   <Grid
@@ -85,7 +86,7 @@ function SearchSong() {
           {" "}
           <Grid>
             {albums &&
-              albums.map((data: any) => {
+              albums.map((data:Albums) => {
                 if (data.id === selectedSong.id) {
                   return (
                     <Grid

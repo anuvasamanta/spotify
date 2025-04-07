@@ -12,6 +12,7 @@ import { MyAppHook } from "@/hook/userContext";
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
 
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import { SongType } from "@/interface/song";
 const titleDescription = (song_title: string, wordLimit: number) => {
   const words = song_title.split(" ");
   if (words.length > wordLimit) {
@@ -30,8 +31,8 @@ export default function CardSong() {
       columns={{ xs: 4, sm: 8, md: 12 }}
     >
       {song &&
-        song.map((data: any) => {
-          if (data?.song_category === "Hindi" && data?.id <= 15) {
+        song.map((data:SongType| null) => {
+          if (data?.song_category === "Hindi") {
             return (
               <Grid size={{ xs: 6, md: 4 }} key={data?.id}>
                 <Card

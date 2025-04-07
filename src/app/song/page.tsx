@@ -29,7 +29,7 @@ function Songs() {
       columns={{ xs: 4, sm: 8, md: 12 }}
     >
       {song &&
-        song.map((data: SongType[] | any) => (
+        song.map((data: SongType) => (
           <Grid
             key={data?.id}
             sx={{ margin: "20px 0px" }}

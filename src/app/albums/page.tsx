@@ -1,5 +1,6 @@
 "use client";
 import { MyAppHook } from "@/hook/userContext";
+import { Albums } from "@/interface/song";
 import {
   CardMedia,
   Grid,
@@ -10,7 +11,7 @@ import {
 import Link from "next/link";
 import React from "react";
 
-function Albums() {
+function Album() {
   const { albums } = MyAppHook();
 
   return (
@@ -20,7 +21,7 @@ function Albums() {
       columns={{ xs: 4, sm: 8, md: 12 }}
     >
       {albums &&
-        albums.map((data: any) => (
+        albums.map((data: Albums | null) => (
           <Grid
             key={data?.id}
             sx={{ marginTop: "20px" }}
@@ -57,4 +58,4 @@ function Albums() {
   );
 }
 
-export default Albums;
+export default Album;

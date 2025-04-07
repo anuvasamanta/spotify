@@ -23,10 +23,10 @@ import { supabase } from "../../../../../lib/supabaseClient";
 import Admin from "@/component/Admin";
 
 export default function Edit({ params }: { params: { musicId: string } }) {
-  const songId: any = params.musicId;
+  const songId:string = params.musicId;
 //   console.log("id", songId);
   const [userId, setUserId] = useState<string|number | null>(null);
-  const [edit,setEdit]=useState<any>(null);
+  const [edit,setEdit]=useState<Albums[] | null | any>(null);
   const { setAuthToken, setIsLoggedIn,setIsLoading } = MyAppHook();
   const [album, setAlbums] = useState<Albums[]>([]);
   const [selectedAlbum, setSelectedAlbum] = useState<number | null>(null);
@@ -143,7 +143,8 @@ export default function Edit({ params }: { params: { musicId: string } }) {
     <Container maxWidth="xl">
       <Box sx={{ display: "flex" }}>
         <NavAdmin />
-        <Container maxWidth="xl" sx={{ mt: 2, mb: 2 }}>
+        <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
+        <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
           <Grid container spacing={2} sx={{ marginLeft: 9 }} rowSpacing={3}>
             <Admin/>
             <Grid size={12} sx={{ display: "block" }}>
@@ -311,6 +312,7 @@ export default function Edit({ params }: { params: { musicId: string } }) {
               </Box>
             </Grid>
           </Grid>
+          </Container>
         </Container>
       </Box>
     </Container>

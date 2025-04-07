@@ -6,10 +6,11 @@ import toast from 'react-hot-toast';
 import { Albums } from '@/interface/song';
 import Swal from "sweetalert2";
 import { Button, CardMedia, Grid, ImageListItem, Paper, Typography } from '@mui/material';
+import { User } from '@supabase/supabase-js';
 function AlbumSong() {
     const {setIsLoading,setAuthToken, setIsLoggedIn}=MyAppHook();
-     const [album, setAlbum] = useState<Albums[] | null>(null);
-     const [user, setUserId] = useState<any>(null);
+     const [album, setAlbum] = useState<Albums[] | null >(null);
+     const [user, setUserId] = useState<User | null | string>(null);
      useEffect(() => {
         const handelLoginSession = async () => {
           const { data, error } = await supabase.auth.getSession();
@@ -41,7 +42,7 @@ function AlbumSong() {
         }
       };
     
-      const handelDelete = async (id: number) => {
+      const handelDelete = async (id: number ) => {
         Swal.fire({
           title: "Are you sure?",
           text: "You won't be able to revert this!",
@@ -80,7 +81,7 @@ function AlbumSong() {
     columnSpacing={3}
   >
     {album &&
-      album.map((data: Albums | any) => (
+      album.map((data: Albums | null ) => (
         <Grid
           key={data?.id}
           sx={{ marginTop: "20px" }}
@@ -96,7 +97,7 @@ function AlbumSong() {
             <Button
               size="small"
               color="secondary"
-              onClick={() => handelDelete(data?.id)}
+              onClick={() => data?.id && handelDelete(data.id)}
             >
               delete
             </Button>

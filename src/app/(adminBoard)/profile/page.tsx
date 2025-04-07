@@ -18,12 +18,13 @@ import {
 import { useRouter } from "next/navigation";
 import NavAdmin from "@/component/NavAdmin";
 import Admin from "@/component/Admin";
+import { User } from "@supabase/supabase-js";
 
 function Account() {
   const router=useRouter();
   const { setAuthToken, setIsLoading, setIsLoggedIn } = MyAppHook();
   const [userId, setUserId] = useState<number | null | string>(null);
-  const [user, setUser] = useState<any | null>(null);
+  const [user, setUser] = useState<User| null>(null);
   useEffect(() => {
     const handelLoginSession = async () => {
       const { data, error } = await supabase.auth.getSession();

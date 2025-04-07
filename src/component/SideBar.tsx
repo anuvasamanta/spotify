@@ -10,7 +10,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Button, CardMedia, ListItem, ListItemText } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import Link from "next/link";
 import { MyAppHook } from "@/hook/userContext";
 import { supabase } from "../../lib/supabaseClient";
@@ -76,12 +75,6 @@ export default function SideBar() {
             <ListItem>
               <SearchIcon />{" "}
               <ListItemText className="Navbar">Search</ListItemText>
-            </ListItem>
-          </Link>
-          <Link href="/likedSong" className="hovering">
-            <ListItem>
-              <FavoriteBorderOutlinedIcon />
-              <ListItemText className="Navbar">Liked Song</ListItemText>
             </ListItem>
           </Link>
         </List>

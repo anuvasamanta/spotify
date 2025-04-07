@@ -4,11 +4,12 @@ import { supabase } from '../../lib/supabaseClient';
 import { MyAppHook } from '@/hook/userContext';
 import toast from 'react-hot-toast';
 import { Box, Card, CardActionArea, CardContent, Typography } from '@mui/material';
+import { User } from '@supabase/supabase-js';
 
 function Admin() {
     const { setAuthToken, setIsLoading, setIsLoggedIn } = MyAppHook();
     const [userId, setUserId] = useState<number | null | string>(null);
-    const [user, setUser] = useState<any | null>(null);
+    const [user, setUser] = useState<User | null>(null);
     useEffect(() => {
       const handelLoginSession = async () => {
         const { data, error } = await supabase.auth.getSession();

@@ -15,8 +15,10 @@ import '@/style/style.css'
 import Swal from "sweetalert2";
 import Link from "next/link";
 import { supabase } from "../../lib/supabaseClient";
+import { User } from "@supabase/supabase-js";
+import { Session } from "inspector/promises";
 function SubmittedSong() {
-  const [user, setUserId] = useState<any>(null);
+  const [user, setUserId] = useState<User| null | any>(null);
   const [song, setSong] = useState<SongType[] | null >(null);
   const { setAuthToken, setIsLoggedIn, setIsLoading } = MyAppHook();
   useEffect(() => {
@@ -53,7 +55,7 @@ function SubmittedSong() {
   // console.log("song", song);
 console.log("user",user);
 
-  const handelDelete = async (id: number) => {
+  const handelDelete = async (id: number |string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -91,7 +93,7 @@ console.log("user",user);
       columnSpacing={3}
     >
       {song &&
-        song.map((data: SongType | any) => (
+        song.map((data: SongType | null  ) => (
           <Grid
             key={data?.id}
             sx={{ marginTop: "20px" }}
@@ -107,7 +109,7 @@ console.log("user",user);
               <Button
                 size="small"
                 color="secondary"
-                onClick={() => handelDelete(data?.id)}
+                onClick={() => data?.id && handelDelete(data.id)}
               >
                 delete
               </Button>

@@ -1,28 +1,36 @@
 "use client";
 
 import { Albums, SongType } from "@/interface/song";
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, FormEvent, useContext, useEffect, useRef, useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
+interface Song {
+  id: string;
+  song_url: string;
+}
+interface AudioRef {
+  current: HTMLAudioElement | null;
+}
+
 
 interface UserContextType {
   isLoggedIn: boolean;
   setIsLoggedIn: (state: boolean) => void;
-  setAuthToken: (state: any) => void;
+  setAuthToken: (state: string |null) => void;
   setIsLoading: (state: boolean) => void;
   song: SongType[] | null;
   albums: Albums[] | null;
-  currentSong: SongType[] | null  | any;
+  currentSong: SongType[] | null | any;
   isPlaying: boolean;
-  audioRef: HTMLAudioElement | null | any;
-  handlePlay: SongType[] | any;
-  setIsPlaying:(state:boolean) => void;
-  searchQuery:string;
-  setSearchQuery:(state:any) => void;
-  searchResult:SongType[] | Albums[] | null;
-  setSearchResult:(state:any) => void;
-  selectedSong:[] | SongType[] | any;
-  setSelectedSong:(state:boolean | any) => void;
-  handelSearch:any;
+  audioRef: AudioRef;
+  handlePlay: (song: SongType | Song) => void
+  setIsPlaying: (state: boolean) => void;
+  searchQuery: string | null | undefined;
+  setSearchQuery: (state:string | null | undefined) => void;
+  searchResult: SongType[] | Albums[] | null;
+  setSearchResult: (state: SongType[] | Albums[] | null) => void;
+  selectedSong: SongType[] | Albums[] | null | boolean | any;
+  setSelectedSong: (state: boolean) => void;
+  handelSearch: (event: FormEvent<HTMLFormElement>) => Promise<void>;
 }
 
 const AuthContext = createContext<UserContextType | undefined>(undefined);
@@ -37,28 +45,25 @@ export const AuthContextProvider = ({
   const [isLoading, setIsLoading] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>();
 
-  const [song, setSong] = useState<SongType[] | null | any>(null);
+  const [song, setSong] = useState<SongType[] | null>(null);
   const [albums, setAlbums] = useState<Albums[] | null>(null);
 
   const [currentSong, setCurrentSong] = useState<SongType[] | null | any>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const audioRef = useRef<HTMLAudioElement | null | any>(null);
 
-  
-const [searchQuery,setSearchQuery]=useState('');
-const [searchResult,setSearchResult]=useState([]);
-const [selectedSong, setSelectedSong] =useState<[] | any | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string | null | undefined >("");
+  const [searchResult, setSearchResult] = useState<SongType[] | Albums[] | null>([]);
+  const [selectedSong, setSelectedSong] = useState<SongType[] | Albums[] | null | boolean >(null);
 
+  // handel search
 
-  
-// handel search
-
- const handelSearch = async (event: any) => {
+  const handelSearch = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (searchQuery.trim() === "") {
+    if ((searchQuery ?? "").trim() === "") {
       setSearchResult([]);
       return;
-    }
+    }    
     try {
       const { data, error } = await supabase
         .from("song")
@@ -93,10 +98,10 @@ const [selectedSong, setSelectedSong] =useState<[] | any | null>(null);
     }
   };
 
-  const handlePlay = (song: SongType | any) => {
+  const handlePlay = (song: SongType  | Song  ) => {
     if (audioRef.current) {
       if (currentSong?.id === song.id) {
-        togglePlayPause();
+        togglePlayPause()
       } else {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
@@ -107,8 +112,6 @@ const [selectedSong, setSelectedSong] =useState<[] | any | null>(null);
       }
     }
   };
-
-
 
   // useeffect
   useEffect(() => {
@@ -150,12 +153,10 @@ const [selectedSong, setSelectedSong] =useState<[] | any | null>(null);
       setAuthToken(token);
       setIsLoggedIn(true);
     }
-  }, [setSong,setAlbums,fetchError]);
+  }, [setSong, setAlbums, fetchError]);
   // console.log("song",song);
   console.log(authToken);
   console.log(isLoading);
-  
-  
 
   return (
     <AuthContext.Provider
@@ -174,11 +175,10 @@ const [selectedSong, setSelectedSong] =useState<[] | any | null>(null);
         searchQuery,
         setSearchQuery,
         setSearchResult,
-        searchResult, 
+        searchResult,
         selectedSong,
         setSelectedSong,
         handelSearch,
-
       }}
     >
       {children}
