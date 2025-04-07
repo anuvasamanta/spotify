@@ -19,7 +19,7 @@ interface UserContextType {
   setIsLoading: (state: boolean) => void;
   song: SongType[] | null;
   albums: Albums[] | null;
-  currentSong: SongType[] | null | any;
+  currentSong: SongType | null | Song;
   isPlaying: boolean;
   audioRef: AudioRef;
   handlePlay: (song: SongType | Song) => void
@@ -28,7 +28,7 @@ interface UserContextType {
   setSearchQuery: (state:string | null | undefined) => void;
   searchResult: SongType[] | Albums[] | null;
   setSearchResult: (state: SongType[] | Albums[] | null) => void;
-  selectedSong: SongType[] | Albums[] | null | boolean | any;
+  selectedSong:  boolean | SongType[] | Albums[] | null;
   setSelectedSong: (state: boolean) => void;
   handelSearch: (event: FormEvent<HTMLFormElement>) => Promise<void>;
 }
@@ -48,9 +48,9 @@ export const AuthContextProvider = ({
   const [song, setSong] = useState<SongType[] | null>(null);
   const [albums, setAlbums] = useState<Albums[] | null>(null);
 
-  const [currentSong, setCurrentSong] = useState<SongType[] | null | any>(null);
+  const [currentSong, setCurrentSong] = useState<SongType | Song | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const audioRef = useRef<HTMLAudioElement | null | any>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const [searchQuery, setSearchQuery] = useState<string | null | undefined >("");
   const [searchResult, setSearchResult] = useState<SongType[] | Albums[] | null>([]);
@@ -99,21 +99,40 @@ export const AuthContextProvider = ({
     }
   };
 
-  const handlePlay = (song: SongType  | Song  ) => {
+  // const handlePlay = (song: SongType  | Song  ) => {
+  //   if (audioRef.current) {
+  //     if (currentSong?.id === song.id) {
+  //       togglePlayPause()
+  //     } else {
+  //       audioRef.current.pause();
+  //       audioRef.current.currentTime = 0;
+  //       audioRef.current.src = song.song_url;
+  //       setCurrentSong(song);
+  //       setIsPlaying(true);
+  //       audioRef.current.play();
+  //     }
+  //   }
+  // };
+  const handlePlay = (song: SongType | Song ) => {
     if (audioRef.current) {
       if (currentSong?.id === song.id) {
         togglePlayPause()
       } else {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
-        audioRef.current.src = song.song_url;
+        if (typeof song.song_url === 'string') {
+          audioRef.current.src = song.song_url;
+        } else {
+          console.error('Invalid song URL');
+        }
         setCurrentSong(song);
         setIsPlaying(true);
         audioRef.current.play();
       }
     }
   };
-
+  
+  
   // useeffect
   useEffect(() => {
     // song fetching
