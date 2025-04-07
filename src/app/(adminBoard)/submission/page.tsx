@@ -59,7 +59,7 @@ export default function Submission() {
     const { data, error } = await supabase.storage
       .from("song-image")
       .upload(fileName, file);
-    // console.log(data);
+    console.log(data);
 
     if (error) {
       toast.error("failed to upload");

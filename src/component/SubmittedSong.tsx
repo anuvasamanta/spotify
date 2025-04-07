@@ -17,7 +17,7 @@ import Link from "next/link";
 import { supabase } from "../../lib/supabaseClient";
 import { User } from "@supabase/supabase-js";
 function SubmittedSong() {
-  const [user, setUserId] = useState<User| null | any>(null);
+  const [user, setUserId] = useState<User | string | null>(null);
   const [song, setSong] = useState<SongType[] | null >(null);
   const { setAuthToken, setIsLoggedIn, setIsLoading } = MyAppHook();
   useEffect(() => {

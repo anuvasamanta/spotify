@@ -70,7 +70,7 @@ export default function Edit({ params }: { params: { musicId: string } }) {
     };
     handelLoginSession();
     fetchSong()
-  }, [songId,setIsLoading,setIsLoggedIn,setAuthToken,setAlbums,fetchSong]);
+  }, [songId,setIsLoading,setIsLoggedIn,setAuthToken,setAlbums]);
   // console.log("fetch",edit);
   console.log(userId);
   
