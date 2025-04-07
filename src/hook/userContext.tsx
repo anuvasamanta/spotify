@@ -55,6 +55,7 @@ export const AuthContextProvider = ({
   const [searchQuery, setSearchQuery] = useState<string | null | undefined >("");
   const [searchResult, setSearchResult] = useState<SongType[] | Albums[] | null>([]);
   const [selectedSong, setSelectedSong] = useState<SongType[] | Albums[] | null | boolean >(null);
+  
 
   // handel search
 

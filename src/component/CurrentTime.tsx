@@ -12,7 +12,7 @@ function CurrentTime() {
   } else if(CurrentTime>=17 && CurrentTime<20) {
     greetingMessage = "Good Evening!";
   }else{
-    greetingMessage='Good Night !'
+    greetingMessage='Listen your favorite music !'
   }
   return (
     <Box sx={{ color: "white" }}>

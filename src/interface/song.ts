@@ -64,5 +64,5 @@ export interface Albums {
   release_date: number;
   user_id?: number | string;
   id?: number;
-  cover_img: string | File | null;
+  cover_img?: string | File | null;
 }

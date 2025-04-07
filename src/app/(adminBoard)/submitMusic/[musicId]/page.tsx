@@ -14,7 +14,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Albums, SongType } from "@/interface/song";
 import { MyAppHook } from "@/hook/userContext";
 import { useForm } from "react-hook-form";
@@ -72,7 +72,7 @@ export default function Edit({ params }: { params: { musicId: string } }) {
     };
     handelLoginSession();
     fetchSong()
-  }, [songId,setIsLoading,setIsLoading,setAuthToken,setAlbums]);
+  }, [songId,setIsLoading,setIsLoading,setAuthToken,setAlbums,fetchSong]);
   // console.log("fetch",edit);
   console.log(userId);
   
@@ -173,8 +173,11 @@ export default function Edit({ params }: { params: { musicId: string } }) {
                 <TextField
                   type="file"
                   name="song_img"
-                  onChange={(event: any) => {
-                    setValue("song_img", event.target.files[0]);
+                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                   const file=event.target.files?.[0];
+                   if(file){
+                    setValue("song_img",file)
+                   }
                   }}
                      helperText="Please select your song image"
                 >
@@ -288,8 +291,11 @@ export default function Edit({ params }: { params: { musicId: string } }) {
                       fullWidth
                       defaultValue={edit?.song_url}
                          helperText="Please select your song file"
-                      onChange={(event: any) => {
-                        setValue("song_url", event.target.files[0]);
+                      onChange={(event:ChangeEvent<HTMLInputElement>) => {
+                      const file=event.target.files?.[0];
+                      if(file){
+                        setValue("song_url",file)
+                      }
                       }}
                     />
                   </Grid>

@@ -16,7 +16,6 @@ import Swal from "sweetalert2";
 import Link from "next/link";
 import { supabase } from "../../lib/supabaseClient";
 import { User } from "@supabase/supabase-js";
-import { Session } from "inspector/promises";
 function SubmittedSong() {
   const [user, setUserId] = useState<User| null | any>(null);
   const [song, setSong] = useState<SongType[] | null >(null);
@@ -55,7 +54,7 @@ function SubmittedSong() {
   // console.log("song", song);
 console.log("user",user);
 
-  const handelDelete = async (id: number |string) => {
+  const handelDelete = async (id: number | string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",

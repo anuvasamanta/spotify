@@ -67,6 +67,7 @@ export default function Join() {
       <Box sx={{ display: "flex" }}>
         <NavAdmin />
         <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
+        <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
           <Grid container spacing={2} sx={{ marginLeft: 9 }}>
             <Admin/>
             <Grid size={12} sx={{ display: "block" }}>
@@ -370,6 +371,7 @@ export default function Join() {
               </Box>
             </Grid>
           </Grid>
+          </Container>
         </Container>
       </Box>
     </Container>

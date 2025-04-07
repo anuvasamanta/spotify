@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Albums, SongType } from "@/interface/song";
 import { MyAppHook } from "@/hook/userContext";
 import { useForm } from "react-hook-form";
@@ -127,7 +127,8 @@ export default function Submission() {
     <Container maxWidth="xl">
       <Box sx={{ display: "flex" }}>
         <NavAdmin />
-        <Container maxWidth="xl" sx={{ mt: 2, mb: 2 }}>
+        <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
+          <Container  maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
           <Grid container spacing={2} sx={{ marginLeft: 9 }} rowSpacing={3}>
                <Admin/>
             <Grid size={12} sx={{ display: "block" }}>
@@ -156,8 +157,11 @@ export default function Submission() {
                 <TextField
                   type="file"
                   name="song_img"
-                  onChange={(event: any) => {
-                    setValue("song_img", event.target.files[0]);
+                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                    const file = event.target.files?.[0];
+                    if (file) {
+                      setValue("song_img", file);
+                    }
                   }}
                      helperText="Please select your song image"
                 >
@@ -264,8 +268,11 @@ export default function Submission() {
                       variant="filled"
                       fullWidth
                       helperText="Please select your song file"
-                      onChange={(event: any) => {
-                        setValue("song_url", event.target.files[0]);
+                      onChange={(event:ChangeEvent<HTMLInputElement>) => {
+                        const file=event.target.files?.[0];
+                        if(file){
+                          setValue("song_url",file)
+                        }
                       }}
                     />
                   </Grid>
@@ -288,6 +295,7 @@ export default function Submission() {
               </Box>
             </Grid>
           </Grid>
+          </Container>
         </Container>
       </Box>
     </Container>
