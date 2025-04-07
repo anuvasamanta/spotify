@@ -12,7 +12,7 @@ import {
 import React, { useEffect } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useRouter } from "next/navigation";
@@ -20,6 +20,12 @@ import { supabase } from "../../../../lib/supabaseClient";
 import { MyAppHook } from "@/hook/userContext";
 import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp';
 import '@/style/style.css'
+
+interface SignIN {
+  email: string;
+  password: string;
+}
+
 function SignIn() {
   const router = useRouter();
   const { isLoggedIn, setIsLoggedIn, setAuthToken } = MyAppHook();
@@ -34,12 +40,17 @@ function SignIn() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = async (formData: any) => {
+  const onSubmit:SubmitHandler<Partial<SignIN>>  = async (formData:Partial<SignIN>) => {
     const { email, password } = formData;
+    if (!email || !password) {
+      toast.error('Please enter both email and password');
+      return;
+    }  
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
+
     if (error) {
       toast.error("invalid details");
     } else {

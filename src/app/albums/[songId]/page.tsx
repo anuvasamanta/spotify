@@ -19,7 +19,12 @@ import {
 import "@/style/style.css";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import Link from "next/link";
-
+import { SongType } from "@/interface/song";
+interface AlbumsType{
+id?:number | undefined;
+cover_img: string | File | null | undefined;
+title:string
+}
 function AlbumSong({ params }: { params: { songId: string } }) {
   const {
     song,
@@ -30,6 +35,7 @@ function AlbumSong({ params }: { params: { songId: string } }) {
     handlePlay,
     setIsPlaying,
   } = MyAppHook();
+  
   //   console.log(song);
   //   console.log(albums);
   console.log(params.songId);
@@ -40,11 +46,13 @@ function AlbumSong({ params }: { params: { songId: string } }) {
         <ArrowBackSharpIcon />
       </Link>
       <Box>
+      
         {albums &&
-          albums.map((data: any) => {
-            if (params.songId == data?.id) {
+          albums.map((data ) => {
+            const dataAsAlbumsType = data as AlbumsType;
+            if (params.songId === String(dataAsAlbumsType.id)) {
               return (
-                <Box key={data?.id}>
+                <Box key={dataAsAlbumsType?.id}>
                   <Grid
                     container
                     spacing={3}
@@ -56,14 +64,14 @@ function AlbumSong({ params }: { params: { songId: string } }) {
                       sx={{ borderRadius: "10px", margin: "20px" }}
                     >
                       
-                      <CardMedia sx={{height:"200px"}} component="img" src={`${data?.cover_img}`} alt="Image "/>
+                      <CardMedia sx={{height:"200px"}} component="img" src={`${dataAsAlbumsType?.cover_img}`} alt="Image "/>
                     </Grid>
                     <Grid size={{ xs: 12, md: 6 }}>
                       <Typography
                         variant="h2"
                         sx={{ textAlign: "center", marginTop: "70px" }}
                       >
-                        {data?.title}
+                        {dataAsAlbumsType?.title}
                       </Typography>
                       <Typography variant="body2" sx={{ textAlign: "center" }}>
                         Album
@@ -78,8 +86,8 @@ function AlbumSong({ params }: { params: { songId: string } }) {
       <hr />
       <Box>
         {song &&
-          song.map((data: any) => {
-            if (data.album_id == params.songId) {
+          song.map((data:SongType) => {
+            if (data.album_id == Number(params.songId)) {
               return (
                 <List
                   key={data?.id}

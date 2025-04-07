@@ -1,7 +1,4 @@
-// import React from 'react'
 
-// function Edit({params}:{params:{musicId:string}}) {
-//   return (
 
 "use client";
 import NavAdmin from "@/component/NavAdmin";
@@ -15,18 +12,19 @@ import {
   Typography,
 } from "@mui/material";
 import { ChangeEvent, useEffect, useState } from "react";
-import { Albums, SongType } from "@/interface/song";
+import { Albums, EditType, SongType } from "@/interface/song";
 import { MyAppHook } from "@/hook/userContext";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { supabase } from "../../../../../lib/supabaseClient";
 import Admin from "@/component/Admin";
+
 
 export default function Edit({ params }: { params: { musicId: string } }) {
   const songId:string = params.musicId;
 //   console.log("id", songId);
   const [userId, setUserId] = useState<string|number | null>(null);
-  const [edit,setEdit]=useState<Albums[] | null | any>(null);
+  const [edit,setEdit]=useState<EditType | null>(null);
   const { setAuthToken, setIsLoggedIn,setIsLoading } = MyAppHook();
   const [album, setAlbums] = useState<Albums[]>([]);
   const [selectedAlbum, setSelectedAlbum] = useState<number | null>(null);
@@ -72,7 +70,7 @@ export default function Edit({ params }: { params: { musicId: string } }) {
     };
     handelLoginSession();
     fetchSong()
-  }, [songId,setIsLoading,setIsLoading,setAuthToken,setAlbums,fetchSong]);
+  }, [songId,setIsLoading,setIsLoggedIn,setAuthToken,setAlbums,fetchSong]);
   // console.log("fetch",edit);
   console.log(userId);
   
@@ -108,7 +106,7 @@ export default function Edit({ params }: { params: { musicId: string } }) {
       .publicUrl;
   };
   // form submit
-  const onSubmit = async (formData: SongType | any) => {
+  const onSubmit:SubmitHandler<Partial<SongType>> = async (formData) => {
     setIsLoading(true);
     let imagePath = formData.song_img;
     let audioPath = formData.song_url;

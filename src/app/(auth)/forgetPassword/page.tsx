@@ -11,19 +11,20 @@ import {
 } from "@mui/material";
 import React from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import GoogleIcon from "@mui/icons-material/Google";
 import { supabase } from "../../../../lib/supabaseClient";
-import '@/style/style.css'
+import "@/style/style.css"
+import { Forget } from "@/interface/song";
 
 
 function ForgotPassword() {
   const {register,handleSubmit,formState:{errors
   }}=useForm();
-  const onSubmit=async(formData:any)=>{
+  const onSubmit:SubmitHandler<Partial<Forget>> =async(formData)=>{
     const {email}=formData;
-    const {data,error}=await supabase.auth.resetPasswordForEmail(email);
+    const {data,error}=await supabase.auth.resetPasswordForEmail(email as string);
     console.log(data);
 
     if(error){
@@ -68,7 +69,7 @@ function ForgotPassword() {
           variant="body2"
           sx={{ textAlign: "center", margin: "10px 13px 25px 20px" }}
         >
-          Enter your email address below and we'll email you a link to reset your password.
+          Enter your email address below and we ll email you a link to reset your password.
         </Typography>
         <Box component="form" sx={{ mt: 1 }} onSubmit={handleSubmit(onSubmit)}>
           <TextField
@@ -84,7 +85,7 @@ function ForgotPassword() {
               },
             })}
           />
-             {errors.email && <Box className='error'>{errors.email?.message?.toString()}</Box>}
+             {errors.email && <Box className="error">{errors.email?.message?.toString()}</Box>}
           <Grid sx={{ display: "flex" }}>
             <Button
               type="submit"

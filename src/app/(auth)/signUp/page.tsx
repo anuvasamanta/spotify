@@ -15,12 +15,19 @@ import React from "react";
 import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp';
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../../../lib/supabaseClient";
 import '@/style/style.css'
+interface SignUP {
+  fullName: string;
+  email: string;
+  password: string;
+}
+
+
 function SignUp() {
   const router = useRouter();
   const {
@@ -28,8 +35,12 @@ function SignUp() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = async (formData: any) => {
+  const onSubmit:SubmitHandler<Partial<SignUP>> = async (formData:Partial<SignUP>) => {
     const { fullName, email, password } = formData;
+    if (!email || !password) {
+      toast.error('Please enter both email and password');
+      return;
+    }  
     const { data, error } = await supabase.auth.signUp({
       email,
       password,

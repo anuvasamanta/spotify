@@ -12,22 +12,17 @@ import {
 import { ChangeEvent, useEffect, useState } from "react";
 import { Albums, SongType } from "@/interface/song";
 import { MyAppHook } from "@/hook/userContext";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { supabase } from "../../../../lib/supabaseClient";
 import toast from "react-hot-toast";
 import Admin from "@/component/Admin";
-import '@/style/style.css'
+import "@/style/style.css";
 export default function Submission() {
   const [userId, setUserId] = useState<number | null | string>(null);
   const { setAuthToken, setIsLoggedIn, setIsLoading } = MyAppHook();
   const [album, setAlbums] = useState<Albums[]>([]);
   const [selectedAlbum, setSelectedAlbum] = useState<number | null>(null);
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    reset
-  } = useForm();
+  const { register, handleSubmit, setValue, reset } = useForm();
 
   useEffect(() => {
     const fetchAlbum = async () => {
@@ -55,7 +50,7 @@ export default function Submission() {
       }
     };
     handelLoginSession();
-  }, [setAuthToken,setIsLoading,setIsLoggedIn]);
+  }, [setAuthToken, setIsLoading, setIsLoggedIn]);
 
   // upload Image
   const uploadImageFile = async (file: File) => {
@@ -64,8 +59,8 @@ export default function Submission() {
     const { data, error } = await supabase.storage
       .from("song-image")
       .upload(fileName, file);
-      console.log(data);
-      
+    // console.log(data);
+
     if (error) {
       toast.error("failed to upload");
       return null;
@@ -80,8 +75,8 @@ export default function Submission() {
     const { data, error } = await supabase.storage
       .from("song-url")
       .upload(fileName, file);
-      console.log(data);
-      
+    console.log(data);
+
     if (error) {
       toast.error("fialed to upload audio");
       return null;
@@ -90,7 +85,7 @@ export default function Submission() {
       .publicUrl;
   };
   // form submit
-  const onSubmit = async (formData: SongType | any) => {
+  const onSubmit: SubmitHandler<Partial<SongType>> = async (formData) => {
     // console.log("form data", formData);
     setIsLoading(true);
     let imagePath = formData.song_img;
@@ -109,14 +104,14 @@ export default function Submission() {
         user_id: userId,
         song_img: imagePath,
         song_url: audioPath,
-        album_id:selectedAlbum
+        album_id: selectedAlbum,
       });
       // console.log(selectedAlbum);
-      console.log(data);
-      
+      // console.log(data);
+
       if (error) {
         toast.error("failed to add  song");
-      } else {
+      } if(data) {
         toast.success("song is submitted successfully");
       }
       reset();
@@ -128,173 +123,174 @@ export default function Submission() {
       <Box sx={{ display: "flex" }}>
         <NavAdmin />
         <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
-          <Container  maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
-          <Grid container spacing={2} sx={{ marginLeft: 9 }} rowSpacing={3}>
-               <Admin/>
-            <Grid size={12} sx={{ display: "block" }}>
-              <Typography
-                variant="h3"
-                component="h2"
-                gutterBottom
-                sx={{
-                  fontSize: "19px",
-                  fontWeight: "600",
-                  marginBottom: "15px",
-                }}
-              >
-                Submit Music
-              </Typography>
-              <Typography variant="body2">
-                To upload musics click on box or drop file image here!
-              </Typography>
-              <Box
-                component="form"
-                sx={{ mt: 1 }}
-                onSubmit={handleSubmit(onSubmit)}
-              >
-                <Box  sx={{height: "120px",
-                    width: "190px",margin: "20px 0px",}}>
-                <TextField
-                  type="file"
-                  name="song_img"
-                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    const file = event.target.files?.[0];
-                    if (file) {
-                      setValue("song_img", file);
-                    }
+          <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
+            <Grid container spacing={2} sx={{ marginLeft: 9 }} rowSpacing={3}>
+              <Admin />
+              <Grid size={12} sx={{ display: "block" }}>
+                <Typography
+                  variant="h3"
+                  component="h2"
+                  gutterBottom
+                  sx={{
+                    fontSize: "19px",
+                    fontWeight: "600",
+                    marginBottom: "15px",
                   }}
-                     helperText="Please select your song image"
                 >
-                </TextField>
-                </Box>
-                <Grid
-                  sx={{ display: "flex", gap: 2, marginBottom: 2 }}
-                  columnSpacing={3}
-                  container
-                  spacing={3}
+                  Submit Music
+                </Typography>
+                <Typography variant="body2">
+                  To upload musics click on box or drop file image here!
+                </Typography>
+                <Box
+                  component="form"
+                  sx={{ mt: 1 }}
+                  onSubmit={handleSubmit(onSubmit)}
                 >
-                  <Grid size={{ xs: 12, md: 6 }}>
-                    <TextField
-                      label="Artist Name"
-                      variant="filled"
-                      fullWidth
-                      {...register("artist_name", {
-                        required: {
-                          value: true,
-                          message: "required",
-                        },
-                      })}
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 12, md: 6 }}>
-                    <TextField
-                      id="album-select"
-                      select
-                      fullWidth
-                      variant="filled"
-                      label="Album Title"
-                      helperText="Please select your album"
-                      {...register("album_title", {
-                        required: {
-                          value: true,
-                          message: "required",
-                        },
-                      })}
-                      value={selectedAlbum || ""}
-                      onChange={(event)=>setSelectedAlbum(Number(event.target.value))}
-                    >
-                      {
-                        album.map((albums:Albums)=>(
-                          <MenuItem key={albums?.id} value={albums.id}>
-                          {albums?.title}
-                        </MenuItem>
-                        ))
-                      }
-                    </TextField>
-                  </Grid>
-                </Grid>
-                <Grid
-                  sx={{ display: "flex", gap: 2, marginBottom: 2 }}
-                  columnSpacing={3}
-                  container
-                  spacing={3}
-                >
-                  <Grid size={{ xs: 12, md: 6 }}>
-                    <TextField
-                      label="Song Title"
-                      variant="filled"
-                      fullWidth
-                      {...register("song_title", {
-                        required: {
-                          value: true,
-                          message: "song_title",
-                        },
-                      })}
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 12, md: 6 }}>
-                    <TextField
-                      type="date"
-                      label="Release Date"
-                      variant="filled"
-                      fullWidth
-                      {...register("release_date", {
-                        required: {
-                          value: true,
-                          message: "release_date",
-                        },
-                      })}
-                    />
-                  </Grid>
-                </Grid>
-                <Grid sx={{ display: "flex", gap: 2, marginBottom: 2 }}
-                 columnSpacing={3}
-                 container
-                 spacing={3}
-                >
-                  <Grid size={{ xs: 12, md: 6 }}>
-                    <TextField
-                      label="song category"
-                      variant="filled"
-                      fullWidth
-                      {...register("song_category", {
-                        required: true,
-                      })}
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 12, md: 6 }}>
+                  <Box
+                    sx={{ height: "120px", width: "190px", margin: "20px 0px" }}
+                  >
                     <TextField
                       type="file"
-                      variant="filled"
-                      fullWidth
-                      helperText="Please select your song file"
-                      onChange={(event:ChangeEvent<HTMLInputElement>) => {
-                        const file=event.target.files?.[0];
-                        if(file){
-                          setValue("song_url",file)
+                      name="song_img"
+                      onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                        const file = event.target.files?.[0];
+                        if (file) {
+                          setValue("song_img", file);
                         }
                       }}
-                    />
-                  </Grid>
-                </Grid>
-                <Grid sx={{ display: "flex", justifyContent: "right" }}>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    sx={{
-                      backgroundColor: "rgba(244, 56, 90, 1)",
-                      width: "170px",
-                      height: "50px",
-                      borderRadius: "20px",
-                      fontSize: "15px",
-                    }}
+                      helperText="Please select your song image"
+                    ></TextField>
+                  </Box>
+                  <Grid
+                    sx={{ display: "flex", gap: 2, marginBottom: 2 }}
+                    columnSpacing={3}
+                    container
+                    spacing={3}
                   >
-                    Upload MP3
-                  </Button>
-                </Grid>
-              </Box>
+                    <Grid size={{ xs: 12, md: 6 }}>
+                      <TextField
+                        label="Artist Name"
+                        variant="filled"
+                        fullWidth
+                        {...register("artist_name", {
+                          required: {
+                            value: true,
+                            message: "required",
+                          },
+                        })}
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 12, md: 6 }}>
+                      <TextField
+                        id="album-select"
+                        select
+                        fullWidth
+                        variant="filled"
+                        label="Album Title"
+                        helperText="Please select your album"
+                        {...register("album_title", {
+                          required: {
+                            value: true,
+                            message: "required",
+                          },
+                        })}
+                        value={selectedAlbum || ""}
+                        onChange={(event) =>
+                          setSelectedAlbum(Number(event.target.value))
+                        }
+                      >
+                        {album.map((albums: Albums) => (
+                          <MenuItem key={albums?.id} value={albums.id}>
+                            {albums?.title}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </Grid>
+                  </Grid>
+                  <Grid
+                    sx={{ display: "flex", gap: 2, marginBottom: 2 }}
+                    columnSpacing={3}
+                    container
+                    spacing={3}
+                  >
+                    <Grid size={{ xs: 12, md: 6 }}>
+                      <TextField
+                        label="Song Title"
+                        variant="filled"
+                        fullWidth
+                        {...register("song_title", {
+                          required: {
+                            value: true,
+                            message: "song_title",
+                          },
+                        })}
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 12, md: 6 }}>
+                      <TextField
+                        type="date"
+                        label="Release Date"
+                        variant="filled"
+                        fullWidth
+                        {...register("release_date", {
+                          required: {
+                            value: true,
+                            message: "release_date",
+                          },
+                        })}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid
+                    sx={{ display: "flex", gap: 2, marginBottom: 2 }}
+                    columnSpacing={3}
+                    container
+                    spacing={3}
+                  >
+                    <Grid size={{ xs: 12, md: 6 }}>
+                      <TextField
+                        label="song category"
+                        variant="filled"
+                        fullWidth
+                        {...register("song_category", {
+                          required: true,
+                        })}
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 12, md: 6 }}>
+                      <TextField
+                        type="file"
+                        variant="filled"
+                        fullWidth
+                        helperText="Please select your song file"
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                          const file = event.target.files?.[0];
+                          if (file) {
+                            setValue("song_url", file);
+                          }
+                        }}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid sx={{ display: "flex", justifyContent: "right" }}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      sx={{
+                        backgroundColor: "rgba(244, 56, 90, 1)",
+                        width: "170px",
+                        height: "50px",
+                        borderRadius: "20px",
+                        fontSize: "15px",
+                      }}
+                    >
+                      Upload MP3
+                    </Button>
+                  </Grid>
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
           </Container>
         </Container>
       </Box>

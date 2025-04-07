@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { MyAppHook } from "@/hook/userContext";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { supabase } from "../../../../lib/supabaseClient";
 import toast from "react-hot-toast";
 import { JoinUs } from "@/interface/song";
@@ -45,7 +45,7 @@ export default function Join() {
   }, [setAuthToken,setIsLoading,setIsLoggedIn]);
 
   // form submit
-  const onSubmit = async (formData:JoinUs | any) => {
+  const onSubmit:SubmitHandler<Partial<JoinUs>>  = async (formData) => {
     // console.log("form data", formData);
     setIsLoading(true);
     const { data, error } = await supabase.from("joinus").insert({

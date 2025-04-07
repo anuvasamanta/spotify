@@ -24,7 +24,7 @@ export interface SongType {
   song_img: string | File | null;
   song_url: string | File | null;
   id?: null | number | string;
-  album_id?: number;
+  album_id?: number | undefined
 }
 export interface CurrentType {
   user_id?: number | string;
@@ -66,3 +66,26 @@ export interface Albums {
   id?: number;
   cover_img?: string | File | null;
 }
+export interface EditType{
+  artist_name:string;
+  album_title:string;
+  song_title:string;
+  release_date:number;
+  song_category:string;
+  song_url: string | File | null;
+}
+export interface Forget{
+email:  string | undefined
+}
+export interface CurrentSongType {
+  album_title?: string;
+  artist_name?: string;
+  song_title?: string;
+  song_category?: string;
+  song_img?: string | File | null;
+  id: string | number | null | undefined;
+  song_url?: string;
+}
+
+
+

@@ -8,9 +8,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent,useEffect, useState } from "react";
 import { MyAppHook } from "@/hook/userContext";
-import { useForm } from "react-hook-form";
+import {  SubmitHandler, useForm } from "react-hook-form";
 import { supabase } from "../../../../lib/supabaseClient";
 import toast from "react-hot-toast";
 import { Albums } from "@/interface/song";
@@ -57,7 +57,7 @@ export default function AlbumSubmit() {
   };
 
   // form submit
-  const onSubmit = async (formData: Albums |any) => {
+  const onSubmit:SubmitHandler<Partial<Albums>> = async (formData) => {
     // console.log("form data", formData);
     setIsLoading(true);
     let imagePath = formData.cover_img;
@@ -74,8 +74,8 @@ export default function AlbumSubmit() {
 
     if (error) {
       toast.error("failed to add  album");
-    } else {
-      console.log(data);
+    } if(data) {
+      // console.log(data);
       toast.success("album is submitted successfully");
     }
     reset();
