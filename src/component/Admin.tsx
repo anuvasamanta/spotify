@@ -41,7 +41,7 @@ function Admin() {
       gap: 2,
     }}
   >
-      <Card sx={{backgroundColor:"rgba(135, 116, 249, 1)", }} >
+      <Card sx={{backgroundColor:"rgb(96, 150, 212)", }} >
         <CardActionArea
           sx={{
             height: '100%',

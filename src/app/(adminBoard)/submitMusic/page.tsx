@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
-import InstagramIcon from "@mui/icons-material/Instagram";
+import AlbumIcon from '@mui/icons-material/Album';
 import SubmittedSong from "@/component/SubmittedSong";
 import AlbumSong from "@/component/AlbumSong";
 import Admin from "@/component/Admin";
@@ -56,7 +56,7 @@ function Music() {
                   </Grid>
                 </Grid>
                 <Grid container spacing={2} gap={0} sx={{ fontSize: "13px" }}>
-                  <InstagramIcon />
+                  <AlbumIcon/>
                   <Grid size={6}>
                     <Button
                       variant="text"

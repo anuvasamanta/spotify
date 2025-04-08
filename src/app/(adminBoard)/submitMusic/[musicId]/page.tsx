@@ -74,7 +74,7 @@ export default function Edit({ params }: CustomPageProps) {
     };
     handelLoginSession();
     fetchSong();
-  }, [musicId, setIsLoggedIn, setAuthToken, setAlbums, fetchSong]);
+  }, [musicId, setIsLoggedIn, setAuthToken, setAlbums]);
 
   // upload Imag
   const uploadImageFile = async (file: File) => {
@@ -87,9 +87,10 @@ export default function Edit({ params }: CustomPageProps) {
     if (error) {
       toast.error("failed to upload");
       return null;
-    }
-    return supabase.storage.from("song-image").getPublicUrl(fileName).data
+    }if(data){
+      return supabase.storage.from("song-image").getPublicUrl(fileName).data
       .publicUrl;
+    }
   };
 
   // upload audio
@@ -103,9 +104,10 @@ export default function Edit({ params }: CustomPageProps) {
     if (error) {
       toast.error("fialed to upload audio");
       return null;
-    }
-    return supabase.storage.from("song-url").getPublicUrl(fileName).data
+    }if(data){
+      return supabase.storage.from("song-url").getPublicUrl(fileName).data
       .publicUrl;
+    }
   };
 
   // form submit
@@ -142,6 +144,7 @@ export default function Edit({ params }: CustomPageProps) {
       reset();
     }
   };
+console.log("user ID",userId);
 
   return (
     <Container maxWidth="xl">
@@ -190,8 +193,8 @@ export default function Edit({ params }: CustomPageProps) {
                         defaultValue={edit?.artist_name}
                         {...register("artist_name", {
                           required: {
-                            value: true,
-                            message: "required",
+                            value: false,
+                            message: "not required",
                           },
                         })}
                       />
@@ -207,8 +210,8 @@ export default function Edit({ params }: CustomPageProps) {
                         helperText="Please select your album"
                         {...register("album_title", {
                           required: {
-                            value: true,
-                            message: "required",
+                            value:false,
+                            message: " not required",
                           },
                         })}
                         value={selectedAlbum || ""}
@@ -231,8 +234,8 @@ export default function Edit({ params }: CustomPageProps) {
                         fullWidth
                         {...register("song_title", {
                           required: {
-                            value: true,
-                            message: "full name",
+                            value: false,
+                            message: "not requird",
                           },
                         })}
                       />
@@ -246,8 +249,8 @@ export default function Edit({ params }: CustomPageProps) {
                         defaultValue={edit?.release_date}
                         {...register("release_date", {
                           required: {
-                            value: true,
-                            message: "full name",
+                            value: false,
+                            message: "not requird",
                           },
                         })}
                       />
@@ -261,7 +264,7 @@ export default function Edit({ params }: CustomPageProps) {
                         fullWidth
                         defaultValue={edit?.song_category}
                         {...register("song_category", {
-                          required: true,
+                          required: false,
                         })}
                       />
                     </Grid>

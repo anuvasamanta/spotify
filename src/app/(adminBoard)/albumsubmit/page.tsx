@@ -133,7 +133,7 @@ export default function AlbumSubmit() {
                   >
                     <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
-                        label="title"
+                        label="Title"
                         variant="filled"
                         fullWidth
                         {...register("title", {
