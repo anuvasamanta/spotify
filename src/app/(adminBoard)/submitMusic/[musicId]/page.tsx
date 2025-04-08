@@ -11,7 +11,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { ChangeEvent, use, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Albums, EditType, SongType } from "@/interface/song";
 import { MyAppHook } from "@/hook/userContext";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -75,7 +75,7 @@ export default function Edit({ params }: CustomPageProps) {
     };
     handelLoginSession();
     fetchSong()
-  }, [musicId,setIsLoading,setIsLoggedIn,setAuthToken,setAlbums]);
+  }, [musicId,setIsLoading,setIsLoggedIn,setAuthToken,setAlbums,fetchSong]);
   // console.log("fetch",edit);
   console.log(userId);
   
