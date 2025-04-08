@@ -65,8 +65,10 @@ function SignIn() {
         .eq("user_id", data?.user?.id)
         .single();
         // console.log(profileData);
-      console.error(profileError);
-      
+      // console.error(profileError);
+      if(profileError){
+        toast.error("error");
+      }
         // Check if user is an admin 
         if (profileData?.is_admin) {
           

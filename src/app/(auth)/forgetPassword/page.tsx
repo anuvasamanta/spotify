@@ -25,12 +25,12 @@ function ForgotPassword() {
   const onSubmit:SubmitHandler<Partial<Forget>> =async(formData)=>{
     const {email}=formData;
     const {data,error}=await supabase.auth.resetPasswordForEmail(email as string);
-    console.log(data);
+    // console.log(data);
 
     if(error){
     toast.error("invalid Email")
     }
-    else{
+    if(data){
       toast.success("Email is send to your address");
     }
   }

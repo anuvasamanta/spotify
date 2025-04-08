@@ -1,3 +1,4 @@
+"use client"
 import {
   Button,
   Typography,
@@ -41,12 +42,15 @@ function SubmittedSong() {
   }, [setAuthToken,setIsLoading,setIsLoggedIn]);
 
   const fetchAllSong = async (userId: string) => {
-    const { data, error } = await supabase
+    const { data,error} = await supabase
       .from("song")
       .select("*")
       .eq("user_id", userId);
-      console.error(error)
+      // console.error(error)
     // console.log("data", data);
+    if(error){
+      toast.error("fetch error");
+    }
     if (data) {
       setSong(data);
     }

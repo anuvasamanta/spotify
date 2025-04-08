@@ -1,3 +1,5 @@
+"use client"
+
 import React from 'react'
 import NavAdmin from '@/component/NavAdmin'
 function DashBoard() {

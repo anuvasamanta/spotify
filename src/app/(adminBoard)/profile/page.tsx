@@ -101,43 +101,7 @@ console.log(userId);
       </Container>
     </Box>
   </Container>
-    // <Box>
-    //   <Container maxWidth="xl">
-       
-    //     <Paper variant="elevation">
-    //       <Card sx={{ minWidth: 275 }}>
-    //         <CardContent>
-    //           <Typography
-    //             gutterBottom
-    //             sx={{ color: "text.secondary", fontSize: 18 }}
-    //           >
-    //             Profile
-    //           </Typography>
-    //           <Typography variant="body1" component="div">
-    //             Full Name: {user?.user_metadata?.fullName}
-    //           </Typography>
-    //           <Typography
-    //             variant="body1"
-    //             component="div"
-    //             sx={{ margin: "20px 0px" }}
-    //           >
-    //             Email: {user?.email}
-    //           </Typography>
-    //           <Typography sx={{ color: "text.secondary", mb: 1.5 }}>
-    //             {user?.last_sign_in_at}
-    //           </Typography>
-    //           <Typography variant="body2">
-    //             Role: {user?.role}
-    //             <br />
-    //           </Typography>
-    //         </CardContent>
-    //         <CardActions>
-    //           <Button size="small" onClick={handelLogOut}>Log out</Button>
-    //         </CardActions>
-    //       </Card>
-    //     </Paper>
-    //   </Container>
-    // </Box>
+    
   );
 }
 

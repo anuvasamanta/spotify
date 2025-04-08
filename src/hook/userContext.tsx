@@ -99,20 +99,6 @@ export const AuthContextProvider = ({
     }
   };
 
-  // const handlePlay = (song: SongType  | Song  ) => {
-  //   if (audioRef.current) {
-  //     if (currentSong?.id === song.id) {
-  //       togglePlayPause()
-  //     } else {
-  //       audioRef.current.pause();
-  //       audioRef.current.currentTime = 0;
-  //       audioRef.current.src = song.song_url;
-  //       setCurrentSong(song);
-  //       setIsPlaying(true);
-  //       audioRef.current.play();
-  //     }
-  //   }
-  // };
   const handlePlay = (song: SongType | Song ) => {
     if (audioRef.current) {
       if (currentSong?.id === song.id) {
@@ -141,13 +127,13 @@ export const AuthContextProvider = ({
 
       if (error) {
         setFetchError("could not fetch");
-        setSong(null);
+        // setSong(null);
         console.log(error);
-        console.log(fetchError);
+        // console.log(fetchError);
       }
       if (data) {
         setSong(data);
-        setFetchError(null);
+        // setFetchError(null);
       }
     };
     fetchAllSong();
@@ -157,12 +143,10 @@ export const AuthContextProvider = ({
       const { data, error } = await supabase.from("albums").select();
       if (error) {
         setFetchError("could not fetch albums");
-        setAlbums(null);
         console.log("album", error);
       }
       if (data) {
         setAlbums(data);
-        setFetchError(null);
       }
     };
     fetchAllAlbum();

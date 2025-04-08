@@ -1,3 +1,5 @@
+"use client"
+
 import Admin from "@/component/Admin";
 import NavAdmin from "@/component/NavAdmin";
 import {
@@ -13,6 +15,7 @@ function Home() {
       <Box sx={{ display: "flex" }}>
         <NavAdmin />
         <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
+          <Container maxWidth="lg" sx={{mt:2,mb:2}}>
           <Grid container spacing={2} sx={{ marginLeft: 9 }}>
            <Admin/>
 
@@ -98,6 +101,7 @@ function Home() {
               </Typography>
             </Grid>
           </Grid>
+          </Container>
         </Container>
       </Box>
     </Container>

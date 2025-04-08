@@ -52,11 +52,11 @@ export default function Join() {
       ...formData,
       user_id: userId,
     });
-    console.log(data);
+    // console.log(data);
     
     if (error) {
       toast.error("Data not submitted");
-    } else {
+    }if(data) {
       toast.success("Data is submitted successfully");
     }
     reset();

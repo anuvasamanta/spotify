@@ -50,11 +50,11 @@ function SignUp() {
         },
       },
     });
-    console.log("data", data);
+    // console.log("data", data);
 
     if (error) {
       toast.error("user sign up error");
-    } else {
+    } if(data) {
       toast.success("user sign up successfully");
     }
   };

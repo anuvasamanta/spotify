@@ -1,6 +1,6 @@
 "use client";
 import { MyAppHook } from "@/hook/userContext";
-import React from "react";
+import React, { use } from "react";
 import PauseIcon from "@mui/icons-material/Pause";
 import Box from "@mui/material/Box";
 import ArrowBackSharpIcon from "@mui/icons-material/ArrowBackSharp";
@@ -25,7 +25,13 @@ id?:number | undefined;
 cover_img: string | File | null | undefined;
 title:string
 }
-function AlbumSong({ params }: { params: { songId: string } }) {
+type CustomPageProps={
+  params:{
+    songId:string;
+  }
+}
+function AlbumSong({ params }: CustomPageProps) {
+  // const paramValue=use(params)
   const {
     song,
     albums,
@@ -38,7 +44,7 @@ function AlbumSong({ params }: { params: { songId: string } }) {
   
   //   console.log(song);
   //   console.log(albums);
-  console.log(params.songId);
+  // console.log(params.songId);
 
   return (
     <Box className="coverColor">

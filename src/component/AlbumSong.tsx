@@ -35,7 +35,10 @@ function AlbumSong() {
           .from("albums")
           .select("*")
           .eq("user_id", userId);
-          console.error(error)
+          // console.error(error)
+          if(error){
+          toast.error("not fetch album");
+          }
         // console.log("data", data);
         if (data) {
           setAlbum(data);

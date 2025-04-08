@@ -11,17 +11,22 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, use, useEffect, useState } from "react";
 import { Albums, EditType, SongType } from "@/interface/song";
 import { MyAppHook } from "@/hook/userContext";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { supabase } from "../../../../../lib/supabaseClient";
 import Admin from "@/component/Admin";
+type CustomPageProps={
+  params:{
+    musicId:string;
+  }
+}
 
-
-export default function Edit({ params }: { params: { musicId: string } }) {
-  const songId:string = params.musicId;
+export default function Edit({ params }: CustomPageProps) {
+  const musicId=params.musicId
+  // const songId:string = params.musicId;
 //   console.log("id", songId);
   const [userId, setUserId] = useState<string|number | null>(null);
   const [edit,setEdit]=useState<EditType | null>(null);
@@ -35,7 +40,7 @@ export default function Edit({ params }: { params: { musicId: string } }) {
     reset,
   } = useForm();
   const fetchSong=async()=>{
-    const {data,error}=await supabase.from("song").select("*").eq("id",songId);
+    const {data,error}=await supabase.from("song").select("*").eq("id",musicId);
     if(error){
         toast.error("error")
     }else{
@@ -70,7 +75,7 @@ export default function Edit({ params }: { params: { musicId: string } }) {
     };
     handelLoginSession();
     fetchSong()
-  }, [songId,setIsLoading,setIsLoggedIn,setAuthToken,setAlbums]);
+  }, [musicId,setIsLoading,setIsLoggedIn,setAuthToken,setAlbums]);
   // console.log("fetch",edit);
   console.log(userId);
   
@@ -121,16 +126,16 @@ export default function Edit({ params }: { params: { musicId: string } }) {
     if (selectedAlbum) {
       const { data, error } = await supabase.from("song").update({
         ...formData,
-      id: songId,
+      id:musicId,
       song_img: imagePath,
       song_url: audioPath,
         album_id:selectedAlbum
-      }).eq("id",songId);
-      console.log("select album",data);
+      }).eq("id",musicId);
+      // console.log("select album",data);
       
     if (error) {
       toast.error("failed to update  song");
-    } else {
+    }if(data) {
       toast.success("song is updated successfully");
     }
     reset();

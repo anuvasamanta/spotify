@@ -35,13 +35,13 @@ export default function NavAdmin() {
                 color: "white",
                 position: "fixed",
                 borderRadius: "19px",
+                marginBottom:"40px"
               }}
             >
              
               <Box component="ul" aria-labelledby="category-a" sx={{ pl: 1 }}>
-                <Typography sx={{ margin: "20px 0px 45px 0px" ,width:"80px"}}>
+                <Typography sx={{ margin: "20px 0px 25px 0px" ,width:"80px"}}>
                 <Link href='/'>
-                 
                   <CardMedia src="assert/logo (1).png" alt="logo" component='img'/>
                   </Link>
                 </Typography>
