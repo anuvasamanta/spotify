@@ -18,10 +18,10 @@ interface AlbumsType {
 }
 
 type CustomPageProps = {
-  params: {
+  params?: {
     songId: string;
   };
-};
+}; 
 
 function AlbumSong({ params }: CustomPageProps) {
   const [unwrappedParams, setUnwrappedParams] = useState<CustomPageProps["params"] | null>(null);

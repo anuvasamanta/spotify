@@ -149,7 +149,7 @@ console.log("user ID",userId);
   return (
     <Container maxWidth="xl">
       <Box sx={{ display: "flex" }}>
-        <NavAdmin />
+        <NavAdmin/>
         <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
           <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
             <Grid container spacing={2} sx={{ marginLeft: 9 }} rowSpacing={3}>
