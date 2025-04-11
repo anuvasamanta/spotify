@@ -30,7 +30,7 @@ export default function AlbumSubmit() {
       }
       setIsLoading(true);
       if (data.session?.access_token) {
-        console.log(data);
+        // console.log(data);
         setAuthToken(data.session.access_token);
         setUserId(data.session.user.id);
         localStorage.setItem("access_token", data.session.access_token);
@@ -47,13 +47,14 @@ export default function AlbumSubmit() {
     const { data, error } = await supabase.storage
       .from("album-cover")
       .upload(fileName, file);
-    console.log(data);
+    // console.log(data);
     if (error) {
       toast.error("failed to upload");
       return null;
-    }
-    return supabase.storage.from("album-cover").getPublicUrl(fileName).data
+    }if(data){
+      return supabase.storage.from("album-cover").getPublicUrl(fileName).data
       .publicUrl;
+    }
   };
 
   // form submit
@@ -66,7 +67,7 @@ export default function AlbumSubmit() {
       if (!imagePath) return;
     }
 
-    const { data, error } = await supabase.from("albums").insert({
+    const { error } = await supabase.from("albums").insert({
       ...formData,
       user_id: userId,
       cover_img: imagePath,
@@ -74,8 +75,7 @@ export default function AlbumSubmit() {
 
     if (error) {
       toast.error("failed to add  album");
-    } if(data) {
-      // console.log(data);
+    } else {
       toast.success("album is submitted successfully");
     }
     reset();

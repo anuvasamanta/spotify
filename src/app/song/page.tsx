@@ -1,3 +1,4 @@
+
 "use client";
 import {
   Button,
@@ -6,12 +7,18 @@ import {
   ImageListItem,
   Paper,
   CardMedia,
+  IconButton,
 } from "@mui/material";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
-import { SongType } from "@/interface/song";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import "@/style/style.css";
 import { MyAppHook } from "@/hook/userContext";
+import { useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
+import { supabase } from "../../../lib/supabaseClient";
+
 const titleDescription = (song_title: string, wordLimit: number) => {
   const words = song_title.split(" ");
   if (words.length > wordLimit) {
@@ -19,9 +26,86 @@ const titleDescription = (song_title: string, wordLimit: number) => {
   }
   return song_title;
 };
+export interface SongType {
+  user_id?: number | string;
+  album_title: string;
+  artist_name: string;
+  song_title: string;
+  song_category: string;
+  song_img: string | File | null;
+  song_url: string | File | null;
+  id?: null | number | string;
+  album_id?: number | undefined
+}
 function Songs() {
   const { song, currentSong, isPlaying, audioRef, handlePlay, setIsPlaying } =
     MyAppHook();
+  const [likes, setLikes] = useState<Record<string, boolean>>({});
+
+  // Check initial like status for all songs
+  useEffect(() => {
+    const checkLikeStatus = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from('likes')
+        .select('song_id')
+        .eq('user_id', user.id);
+
+      if (!error && data) {
+        const likedSongs = data.reduce((acc, item) => {
+          acc[item.song_id] = true;
+          return acc;
+        }, {} as Record<string, boolean>);
+        setLikes(likedSongs);
+      }
+    };
+
+    checkLikeStatus();
+  }, []);
+
+  const handleLike = async (songId: string) => {
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      toast.error('Please login to like songs');
+      return;
+    }
+
+    try {
+      if (likes[songId]) {
+        // Unlike
+        const { error } = await supabase
+          .from('likes')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('song_id', songId);
+
+        if (!error) {
+          setLikes(prev => ({ ...prev, [songId]: false }));
+          toast.success('Removed from your likes');
+        }
+      } else {
+        // Like
+        const { error } = await supabase
+          .from('likes')
+          .insert({
+            user_id: user.id,
+            song_id: songId
+          });
+
+        if (!error) {
+          setLikes(prev => ({ ...prev, [songId]: true }));
+          toast.success('Added to your likes');
+        }
+      }
+    } catch (error) {
+      toast.error('Failed to update like');
+      console.error('Like error:', error);
+    }
+  };
+
   return (
     <Grid
       container
@@ -29,7 +113,7 @@ function Songs() {
       columns={{ xs: 4, sm: 8, md: 12 }}
     >
       {song &&
-        song.map((data: SongType) => (
+        song.map((data: SongType| any) => (
           <Grid
             key={data?.id}
             sx={{ margin: "20px 0px" }}
@@ -43,6 +127,7 @@ function Songs() {
                   backgroundColor: "rgb(43, 43, 43)",
                   color: "white",
                   borderRadius: "10px",
+                  position: 'relative',
                 }}
               >
                 <CardMedia
@@ -67,7 +152,26 @@ function Songs() {
                     <PlayCircleOutlineIcon />
                   )}
                 </Button>
+
               </Paper>
+              <IconButton 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleLike(data.id);
+                  }}
+                  sx={{
+                    position: 'absolute',
+                    top: 8,
+                    right: 8,
+                    color: likes[data.id] ? 'red' : 'white',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    '&:hover': {
+                      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    }
+                  }}
+                >
+                  {likes[data.id] ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                </IconButton>
             </ImageListItem>
           </Grid>
         ))}

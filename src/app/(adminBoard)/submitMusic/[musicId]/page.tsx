@@ -65,7 +65,7 @@ export default function Edit({ params }: CustomPageProps) {
         return;
       }
       if (data.session?.access_token) {
-        console.log(data);
+        // console.log(data);
         setAuthToken(data.session.access_token);
         setUserId(data.session.user.id);
         localStorage.setItem("access_token", data.session.access_token);
@@ -74,7 +74,7 @@ export default function Edit({ params }: CustomPageProps) {
     };
     handelLoginSession();
     fetchSong();
-  }, [musicId, setIsLoggedIn, setAuthToken, setAlbums]);
+  }, [musicId, setIsLoggedIn, setAuthToken, setAlbums, fetchSong]);
 
   // upload Imag
   const uploadImageFile = async (file: File) => {
@@ -87,10 +87,9 @@ export default function Edit({ params }: CustomPageProps) {
     if (error) {
       toast.error("failed to upload");
       return null;
-    }if(data){
-      return supabase.storage.from("song-image").getPublicUrl(fileName).data
-      .publicUrl;
     }
+    return supabase.storage.from("song-image").getPublicUrl(fileName).data
+      .publicUrl;
   };
 
   // upload audio
@@ -104,11 +103,11 @@ export default function Edit({ params }: CustomPageProps) {
     if (error) {
       toast.error("fialed to upload audio");
       return null;
-    }if(data){
-      return supabase.storage.from("song-url").getPublicUrl(fileName).data
-      .publicUrl;
     }
+    return supabase.storage.from("song-url").getPublicUrl(fileName).data
+      .publicUrl;
   };
+console.log(userId);
 
   // form submit
   const onSubmit: SubmitHandler<Partial<SongType>> = async (formData) => {
@@ -124,7 +123,7 @@ export default function Edit({ params }: CustomPageProps) {
       if (!audioPath) return;
     }
     if (selectedAlbum) {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("song")
         .update({
           ...formData,
@@ -138,18 +137,17 @@ export default function Edit({ params }: CustomPageProps) {
       if (error) {
         toast.error("failed to update  song");
       }
-      if (data) {
+      else {
         toast.success("song is updated successfully");
       }
       reset();
     }
   };
-console.log("user ID",userId);
 
   return (
     <Container maxWidth="xl">
       <Box sx={{ display: "flex" }}>
-        <NavAdmin/>
+        <NavAdmin />
         <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
           <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
             <Grid container spacing={2} sx={{ marginLeft: 9 }} rowSpacing={3}>
@@ -193,8 +191,8 @@ console.log("user ID",userId);
                         defaultValue={edit?.artist_name}
                         {...register("artist_name", {
                           required: {
-                            value: false,
-                            message: "not required",
+                            value: true,
+                            message: "required",
                           },
                         })}
                       />
@@ -210,8 +208,8 @@ console.log("user ID",userId);
                         helperText="Please select your album"
                         {...register("album_title", {
                           required: {
-                            value:false,
-                            message: " not required",
+                            value: true,
+                            message: "required",
                           },
                         })}
                         value={selectedAlbum || ""}
@@ -234,8 +232,8 @@ console.log("user ID",userId);
                         fullWidth
                         {...register("song_title", {
                           required: {
-                            value: false,
-                            message: "not requird",
+                            value: true,
+                            message: "full name",
                           },
                         })}
                       />
@@ -249,8 +247,8 @@ console.log("user ID",userId);
                         defaultValue={edit?.release_date}
                         {...register("release_date", {
                           required: {
-                            value: false,
-                            message: "not requird",
+                            value: true,
+                            message: "full name",
                           },
                         })}
                       />
@@ -264,7 +262,7 @@ console.log("user ID",userId);
                         fullWidth
                         defaultValue={edit?.song_category}
                         {...register("song_category", {
-                          required: false,
+                          required: true,
                         })}
                       />
                     </Grid>

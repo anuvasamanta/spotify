@@ -3,6 +3,8 @@
 import { Albums, SongType } from "@/interface/song";
 import { createContext, FormEvent, useContext, useEffect, useRef, useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
+import { Typography } from "@mui/material";
+import toast from "react-hot-toast";
 interface Song {
   id: string;
   song_url: string;
@@ -99,26 +101,75 @@ export const AuthContextProvider = ({
     }
   };
 
-  const handlePlay = (song: SongType | Song ) => {
-    if (audioRef.current) {
-      if (currentSong?.id === song.id) {
-        togglePlayPause()
-      } else {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-        if (typeof song.song_url === 'string') {
-          audioRef.current.src = song.song_url;
-        } else {
-          console.error('Invalid song URL');
-        }
-        setCurrentSong(song);
-        setIsPlaying(true);
-        audioRef.current.play();
+  // const handlePlay = (song: SongType | Song ) => {
+  //   if (audioRef.current) {
+  //     if (currentSong?.id === song.id) {
+  //       togglePlayPause()
+  //     } else {
+  //       audioRef.current.pause();
+  //       audioRef.current.currentTime = 0;
+  //       if (typeof song.song_url === 'string') {
+  //         audioRef.current.src = song.song_url;
+  //       } else {
+  //         console.error('Invalid song URL');
+  //       }
+  //       setCurrentSong(song);
+  //       setIsPlaying(true);
+  //       audioRef.current.play();
+  //     }
+  //   }
+  // };
+  
+  const handlePlay = (song: SongType | Song) => {
+    // Check if audioRef is available
+    if (!audioRef.current) {
+      console.error('Audio element is not available');
+      return;
+    }
+  
+    // If the same song is already playing, toggle play/pause
+    if (currentSong?.id === song.id) {
+      togglePlayPause();
+      return;
+    }
+  
+    try {
+      // Pause and reset current audio if different song is selected
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+  
+      // Validate and set new song URL
+      if (!song.song_url) {
+        throw new Error('Song URL is missing');
       }
+  
+      const songUrl = typeof song.song_url === 'string' ? song.song_url : '';
+      if (!songUrl) {
+        throw new Error('Invalid song URL format');
+      }
+  
+      // Set new song and play
+      audioRef.current.src = songUrl;
+      setCurrentSong(song);
+      setIsPlaying(true);
+  
+      // Handle play promise for modern browsers
+      const playPromise = audioRef.current.play();
+  
+      if (playPromise !== undefined) {
+        playPromise
+          .catch(error => {
+            console.error('Playback failed:', error);
+            setIsPlaying(false);
+            toast.error('Playback failed. Please try again.');
+          });
+      }
+    } catch (error) {
+      console.error('Error handling play:', error);
+      setIsPlaying(false);
+      toast.error('Error playing song');
     }
   };
-  
-  
   // useeffect
   useEffect(() => {
     // song fetching
@@ -159,9 +210,8 @@ export const AuthContextProvider = ({
     }
   }, [setSong, setAlbums, fetchError]);
   // console.log("song",song);
-  console.log(authToken);
-  console.log(isLoading);
-
+  // console.log(authToken);
+  // console.log(isLoading);
   return (
     <AuthContext.Provider
       value={{

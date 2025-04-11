@@ -75,14 +75,15 @@ export default function Submission() {
     const { data, error } = await supabase.storage
       .from("song-url")
       .upload(fileName, file);
-    console.log(data);
+    // console.log(data);
 
     if (error) {
       toast.error("fialed to upload audio");
       return null;
-    }
-    return supabase.storage.from("song-url").getPublicUrl(fileName).data
+    }if(data){
+      return supabase.storage.from("song-url").getPublicUrl(fileName).data
       .publicUrl;
+    }
   };
   // form submit
   const onSubmit: SubmitHandler<Partial<SongType>> = async (formData) => {
@@ -99,7 +100,7 @@ export default function Submission() {
       if (!audioPath) return;
     }
     if (selectedAlbum) {
-      const { data, error } = await supabase.from("song").insert({
+      const { error } = await supabase.from("song").insert({
         ...formData,
         user_id: userId,
         song_img: imagePath,
@@ -111,7 +112,7 @@ export default function Submission() {
 
       if (error) {
         toast.error("failed to add  song");
-      } if(data) {
+      } else {
         toast.success("song is submitted successfully");
       }
       reset();

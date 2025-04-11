@@ -28,10 +28,10 @@ function Admin() {
         }
       };
       handelLoginSession();
-    }, [user,userId,setAuthToken,setIsLoading,setIsLoggedIn]);
+    }, [setAuthToken,setIsLoading,setIsLoggedIn]);
   
-    console.log(user);
-    console.log(userId);
+    // console.log(user);
+    // console.log(userId);
     
   return (
     <Box
@@ -68,3 +68,12 @@ function Admin() {
 }
 
 export default Admin
+// import React from 'react'
+
+// function Admin() {
+//   return (
+//     <div>Admin</div>
+//   )
+// }
+
+// export default Admin

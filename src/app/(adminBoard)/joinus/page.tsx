@@ -34,7 +34,7 @@ export default function Join() {
       }
       setIsLoading(true);
       if (data.session?.access_token) {
-        console.log(data);
+        // console.log(data);
         setAuthToken(data.session.access_token);
         setUserId(data.session.user.id);
         localStorage.setItem("access_token", data.session.access_token);
@@ -48,15 +48,14 @@ export default function Join() {
   const onSubmit:SubmitHandler<Partial<JoinUs>>  = async (formData) => {
     // console.log("form data", formData);
     setIsLoading(true);
-    const { data, error } = await supabase.from("joinus").insert({
+    const { error } = await supabase.from("joinus").insert({
       ...formData,
       user_id: userId,
     });
-    // console.log(data);
     
     if (error) {
       toast.error("Data not submitted");
-    }if(data) {
+    }else{
       toast.success("Data is submitted successfully");
     }
     reset();

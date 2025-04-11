@@ -30,7 +30,7 @@ function SubmittedSong() {
       }
       setIsLoading(true);
       if (data.session?.access_token) {
-        console.log(data);
+        // console.log(data);
         setAuthToken(data.session.access_token);
         setUserId(data.session.user.id);
         localStorage.setItem("access_token", data.session.access_token);
@@ -59,37 +59,45 @@ function SubmittedSong() {
 console.log("user",user);
 
   const handelDelete = async (id: number | string) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
+    setIsLoading(true); // Start loading
+    
+    try {
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      });
+  
       if (result.isConfirmed) {
-        const { data, error } = await supabase
+        const { error } = await supabase
           .from("song")
           .delete()
           .eq("id", id);
-          console.log(data);
-          
+  
         if (error) {
-          toast.error("failed");
+          toast.error("Failed to delete");
         } else {
-          Swal.fire({
+          await Swal.fire({
             title: "Deleted!",
             text: "Your file has been deleted.",
             icon: "success",
           });
+          window.location.reload(); // Refresh the page after successful deletion
         }
       }
-    });
-    
-    setIsLoading(true)
+    } catch (err) {
+      toast.error("An error occurred");
+      console.error(err);
+    } finally {
+      setIsLoading(false); // End loading
+    }
   };
   return (
+
     <Grid
       container
       spacing={3}

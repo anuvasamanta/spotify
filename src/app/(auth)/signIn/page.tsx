@@ -59,19 +59,13 @@ function SignIn() {
         localStorage.setItem("access_token", data.session?.access_token);
         setIsLoggedIn(true);
         toast.success("user logged successfully");
-        const { data: profileData, error: profileError } = await supabase
+        const { data: profileData } = await supabase
         .from("profiles")
         .select("is_admin")
         .eq("user_id", data?.user?.id)
         .single();
-        // console.log(profileData);
-      // console.error(profileError);
-      if(profileError){
-        toast.error("error");
-      }
         // Check if user is an admin 
         if (profileData?.is_admin) {
-          
           router.push("/home");
         } else {
          

@@ -56,11 +56,11 @@ function AlbumSong() {
           confirmButtonText: "Yes, delete it!",
         }).then(async (result) => {
           if (result.isConfirmed) {
-            const { data, error } = await supabase
+            const {  error } = await supabase
               .from("albums")
               .delete()
               .eq("id", id);
-              console.log(data);
+              // console.log(data);
               
             if (error) {
               toast.error("failed");
