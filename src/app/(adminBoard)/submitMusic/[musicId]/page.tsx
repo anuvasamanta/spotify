@@ -169,7 +169,9 @@ export default function Edit({ params }: { params: Promise<PageParams> }) {
     } finally {
       setIsLoading(false);
     }
+    reset();
   };
+console.log(userId);
 
   if (!isClient) {
     return null;
