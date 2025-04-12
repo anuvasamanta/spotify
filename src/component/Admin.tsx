@@ -34,6 +34,7 @@ function Admin() {
         };
         handelLoginSession();
     }, [setAuthToken, setIsLoading, setIsLoggedIn]);
+console.log(userId);
 
     // Prevent rendering on server to avoid hydration mismatch
     if (!isClient) {

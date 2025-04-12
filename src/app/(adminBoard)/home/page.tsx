@@ -15,7 +15,7 @@ function Home() {
       <Box sx={{ display: "flex" }}>
         <NavAdmin />
         <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
-          <Container maxWidth="lg" sx={{mt:2,mb:2}}>
+          <Container maxWidth="lg" sx={{mt:2,mb:2,ml:5}}>
           <Grid container spacing={2} sx={{ marginLeft: 9 }}>
            <Admin/>
 

@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { ChangeEvent, use, useEffect, useState } from "react";
+import { ChangeEvent, use, useCallback, useEffect, useState } from "react";
 import { Albums, EditType, SongType } from "@/interface/song";
 import { MyAppHook } from "@/hook/userContext";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -33,23 +33,36 @@ export default function Edit({ params }: CustomPageProps) {
   const { setAuthToken, setIsLoggedIn, setIsLoading } = MyAppHook();
   const [album, setAlbums] = useState<Albums[]>([]);
   const [selectedAlbum, setSelectedAlbum] = useState<number | null>(null);
-const [isClient, setIsClient] = useState(false);
   const { register, handleSubmit, setValue, reset } = useForm();
+const [isClient,setIsClient]=useState(false);
+  const fetchSong = useCallback(async () => {
+    if (!musicId) return;
+    
+    try {
+      const { data, error } = await supabase
+        .from("song")
+        .select("*")
+        .eq("id", musicId)
+        .single();
 
-  const fetchSong = async () => {
-    const { data, error } = await supabase
-      .from("song")
-      .select("*")
-      .eq("id", musicId);
-    if (error) {
-      toast.error("error");
-    } else {
-      setEdit(data[0]);
+      if (error) throw error;
+      setEdit(data);
+      setSelectedAlbum(data.album_id || null);
+      // Set form values
+      Object.entries(data).forEach(([key, value]) => {
+        if (key in data) {
+          setValue(key as keyof SongType, value);
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching song:", error);
+      toast.error("Failed to load song data");
     }
-  };
+  }, [musicId, setValue]);
+
 
   useEffect(() => {
-  setIsClient(true);
+    setIsClient(true);
     const fetchAlbum = async () => {
       const { data, error } = await supabase.from("albums").select("*");
       if (error) {
@@ -82,7 +95,7 @@ const [isClient, setIsClient] = useState(false);
   const uploadImageFile = async (file: File) => {
     const fileExtension = file.name.split(".").pop();
     const fileName = `${Date.now()}.${fileExtension}`;
-    const { data, error } = await supabase.storage
+    const {  error } = await supabase.storage
       .from("song-image")
       .upload(fileName, file);
 
@@ -145,7 +158,7 @@ console.log(userId);
       reset();
     }
   };
-if (!isClient) {
+if(!isClient){
   return null;
 }
   return (
@@ -153,7 +166,7 @@ if (!isClient) {
       <Box sx={{ display: "flex" }}>
         <NavAdmin />
         <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
-          <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
+          <Container maxWidth="lg" sx={{ mt: 2, mb: 2,ml:3 }}>
             <Grid container spacing={2} sx={{ marginLeft: 9 }} rowSpacing={3}>
               <Admin />
               <Grid size={12} sx={{ display: "block" }}>
