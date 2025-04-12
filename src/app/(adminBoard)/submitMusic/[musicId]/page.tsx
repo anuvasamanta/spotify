@@ -37,7 +37,7 @@ import Admin from "@/component/Admin";
 // Type definition remains simple since we'll use React.use()
 // Type definition remains simple since we'll use React.use()
 type PageParams = {
-  musicId: string;
+  musicId: string | number | undefined;
 };
 
 export default function Edit({ params }: { params: Promise<PageParams> }) {
