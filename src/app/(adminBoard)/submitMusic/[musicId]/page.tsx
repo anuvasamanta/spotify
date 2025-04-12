@@ -1,4 +1,5 @@
 "use client";
+import { use } from "react";
 import NavAdmin from "@/component/NavAdmin";
 import {
   Box,
@@ -9,7 +10,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { ChangeEvent, use, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { Albums, EditType, SongType } from "@/interface/song";
 import { MyAppHook } from "@/hook/userContext";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -17,43 +18,24 @@ import toast from "react-hot-toast";
 import { supabase } from "../../../../../lib/supabaseClient";
 import Admin from "@/component/Admin";
 
-// // Assuming this is where you get params as a Promise.
-// type CustomPageProps = {
-//   params: Promise<{
-//     musicId: string;
-//   }>;
-// };
-
-// export default function Edit({ params }: CustomPageProps) {
-//   // Unwrap the `params` Promise with `React.use()`.
-//   const { musicId } = use(params);
-
-//   const [userId, setUserId] = useState<string | number | null>(null);
-//   const [edit, setEdit] = useState<EditType | null>(null);
-//   const { setAuthToken, setIsLoggedIn, setIsLoading } = MyAppHook();
-//   const [album, setAlbums] = useState<Albums[]>([]);
-//   const [selectedAlbum, setSelectedAlbum] = useState<number | null>(null);
-//   const { register, handleSubmit, setValue, reset } = useForm();
-// Type definition remains simple since we'll use React.use()
-// Type definition remains simple since we'll use React.use()
-type PageParams = {
-  musicId: string | number | undefined;
-};
+interface PageParams {
+  musicId: string;
+}
 
 export default function Edit({ params }: { params: Promise<PageParams> }) {
-  // Unwrap the params promise
   const { musicId } = use(params);
   const [userId, setUserId] = useState<string | null>(null);
   const [edit, setEdit] = useState<EditType | null>(null);
+  const [isClient, setIsClient] = useState(false);
   const { setAuthToken, setIsLoggedIn, setIsLoading } = MyAppHook();
   const [album, setAlbums] = useState<Albums[]>([]);
   const [selectedAlbum, setSelectedAlbum] = useState<number | null>(null);
-  const { register, handleSubmit, setValue, reset } = useForm();
+  const { register, handleSubmit, setValue, reset } =
+    useForm<Partial<SongType>>();
 
-const [isClient,setIsClient]=useState(false);
   const fetchSong = useCallback(async () => {
     if (!musicId) return;
-    
+
     try {
       const { data, error } = await supabase
         .from("song")
@@ -62,13 +44,11 @@ const [isClient,setIsClient]=useState(false);
         .single();
 
       if (error) throw error;
+
       setEdit(data);
       setSelectedAlbum(data.album_id || null);
-      // Set form values
       Object.entries(data).forEach(([key, value]) => {
-        if (key in data) {
-          setValue(key as keyof SongType, value);
-        }
+        setValue(key as keyof SongType, value as string | number | null);
       });
     } catch (error) {
       console.error("Error fetching song:", error);
@@ -76,116 +56,134 @@ const [isClient,setIsClient]=useState(false);
     }
   }, [musicId, setValue]);
 
-
   useEffect(() => {
     setIsClient(true);
+
     const fetchAlbum = async () => {
-      const { data, error } = await supabase.from("albums").select("*");
-      if (error) {
-        console.error("error fetch album", error);
-      } else {
-        setAlbums(data);
+      try {
+        const { data, error } = await supabase.from("albums").select("*");
+        if (error) throw error;
+        setAlbums(data || []);
+      } catch (error) {
+        console.error("Error fetching albums:", error);
+        toast.error("Failed to load albums");
       }
     };
-    fetchAlbum();
 
     const handelLoginSession = async () => {
-      const { data, error } = await supabase.auth.getSession();
-      if (error) {
-        toast.error("failed to get used data");
-        return;
-      }
-      if (data.session?.access_token) {
-        // console.log(data);
-        setAuthToken(data.session.access_token);
-        setUserId(data.session.user.id);
-        localStorage.setItem("access_token", data.session.access_token);
-        setIsLoggedIn(true);
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        if (error) throw error;
+
+        if (data.session?.access_token) {
+          setAuthToken(data.session.access_token);
+          setUserId(data.session.user.id);
+          localStorage.setItem("access_token", data.session.access_token);
+          setIsLoggedIn(true);
+        }
+      } catch (error) {
+        console.error("Login session error:", error);
+        toast.error("Failed to verify session");
       }
     };
+
+    fetchAlbum();
     handelLoginSession();
     fetchSong();
-  }, [musicId, setIsLoggedIn, setAuthToken, setAlbums, fetchSong]);
+  }, [musicId, setIsLoggedIn, setAuthToken, fetchSong]);
 
-  // upload Imag
-  const uploadImageFile = async (file: File) => {
-    const fileExtension = file.name.split(".").pop();
-    const fileName = `${Date.now()}.${fileExtension}`;
-    const {  error } = await supabase.storage
-      .from("song-image")
-      .upload(fileName, file);
+  const uploadImageFile = async (file: File): Promise<string | null> => {
+    try {
+      const fileExtension = file.name.split(".").pop();
+      const fileName = `${Date.now()}.${fileExtension}`;
+      const { error } = await supabase.storage
+        .from("song-image")
+        .upload(fileName, file);
 
-    if (error) {
-      toast.error("failed to upload");
+      if (error) throw error;
+      return supabase.storage.from("song-image").getPublicUrl(fileName).data
+        .publicUrl;
+    } catch (error) {
+      console.error("Image upload error:", error);
+      toast.error("Failed to upload image");
       return null;
     }
-    return supabase.storage.from("song-image").getPublicUrl(fileName).data
-      .publicUrl;
   };
 
-  // upload audio
-  const uploadAudioFile = async (file: File) => {
-    const fileExtension = file.name.split(".").pop();
-    const fileName = `${Date.now()}.${fileExtension}`;
-    const { error } = await supabase.storage
-      .from("song-url")
-      .upload(fileName, file);
+  const uploadAudioFile = async (file: File): Promise<string | null> => {
+    try {
+      const fileExtension = file.name.split(".").pop();
+      const fileName = `${Date.now()}.${fileExtension}`;
+      const { error } = await supabase.storage
+        .from("song-url")
+        .upload(fileName, file);
 
-    if (error) {
-      toast.error("fialed to upload audio");
+      if (error) throw error;
+      return supabase.storage.from("song-url").getPublicUrl(fileName).data
+        .publicUrl;
+    } catch (error) {
+      console.error("Audio upload error:", error);
+      toast.error("Failed to upload audio");
       return null;
     }
-    return supabase.storage.from("song-url").getPublicUrl(fileName).data
-      .publicUrl;
   };
-console.log(userId);
 
-  // form submit
   const onSubmit: SubmitHandler<Partial<SongType>> = async (formData) => {
+    if (!musicId || !selectedAlbum) {
+      toast.error("Missing required fields");
+      return;
+    }
+
     setIsLoading(true);
-    let imagePath = formData.song_img;
-    let audioPath = formData.song_url;
-    if (formData.song_img instanceof File) {
-      imagePath = await uploadImageFile(formData.song_img);
-      if (!imagePath) return;
-    }
-    if (formData.song_url instanceof File) {
-      audioPath = await uploadAudioFile(formData.song_url);
-      if (!audioPath) return;
-    }
-    if (selectedAlbum) {
+    try {
+      let imagePath = formData.song_img;
+      let audioPath = formData.song_url;
+
+      if (formData.song_img instanceof File) {
+        imagePath = await uploadImageFile(formData.song_img);
+        if (!imagePath) return;
+      }
+
+      if (formData.song_url instanceof File) {
+        audioPath = await uploadAudioFile(formData.song_url);
+        if (!audioPath) return;
+      }
+
       const { error } = await supabase
         .from("song")
         .update({
           ...formData,
-          id: musicId,
           song_img: imagePath,
           song_url: audioPath,
           album_id: selectedAlbum,
         })
         .eq("id", musicId);
 
-      if (error) {
-        toast.error("failed to update  song");
-      }
-      else {
-        toast.success("song is updated successfully");
-      }
-      reset();
+      if (error) throw error;
+
+      toast.success("Song updated successfully");
+      await fetchSong();
+    } catch (error) {
+      console.error("Update error:", error);
+      toast.error("Failed to update song");
+    } finally {
+      setIsLoading(false);
     }
   };
-if(!isClient){
-  return null;
-}
+
+  if (!isClient) {
+    return null;
+  }
+
   return (
     <Container maxWidth="xl">
       <Box sx={{ display: "flex" }}>
         <NavAdmin />
         <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
-          <Container maxWidth="lg" sx={{ mt: 2, mb: 2,ml:3 }}>
+          <Container maxWidth="lg" sx={{ mt: 2, mb: 2, ml: 3 }}>
             <Grid container spacing={2} sx={{ marginLeft: 9 }} rowSpacing={3}>
               <Admin />
-              <Grid size={12} sx={{ display: "block" }}>
+              <Grid size={{ xs: 12 }} sx={{ display: "block" }}>
                 <Typography
                   variant="h3"
                   component="h2"
@@ -196,13 +194,19 @@ if(!isClient){
                     marginBottom: "15px",
                   }}
                 >
-                  Submit Music
+                  Edit Music
                 </Typography>
                 <Typography variant="body2">
-                  To update musics click on box or drop file here!
+                  To update music click on box or drop file here!
                 </Typography>
-                <Box component="form" sx={{ mt: 1 }} onSubmit={handleSubmit(onSubmit)}>
-                  <Box sx={{ height: "120px", width: "190px", margin: "20px 0px" }}>
+                <Box
+                  component="form"
+                  sx={{ mt: 1 }}
+                  onSubmit={handleSubmit(onSubmit)}
+                >
+                  <Box
+                    sx={{ height: "120px", width: "190px", margin: "20px 0px" }}
+                  >
                     <TextField
                       type="file"
                       name="song_img"
@@ -213,9 +217,9 @@ if(!isClient){
                         }
                       }}
                       helperText="Please select your song image"
-                    ></TextField>
+                    />
                   </Box>
-                  <Grid sx={{ display: "flex", gap: 2, marginBottom: 2 }} columnSpacing={3} container spacing={3}>
+                  <Grid container spacing={3} sx={{ marginBottom: 2 }}>
                     <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
                         label="Artist Name"
@@ -223,40 +227,31 @@ if(!isClient){
                         fullWidth
                         defaultValue={edit?.artist_name}
                         {...register("artist_name", {
-                          required: {
-                            value: true,
-                            message: "required",
-                          },
+                          required: "Artist name is required",
                         })}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
-                        id="album-select"
                         select
                         fullWidth
                         variant="filled"
                         label="Album Title"
-                        defaultValue={edit?.album_title}
                         helperText="Please select your album"
-                        {...register("album_title", {
-                          required: {
-                            value: true,
-                            message: "required",
-                          },
-                        })}
                         value={selectedAlbum || ""}
-                        onChange={(event) => setSelectedAlbum(Number(event.target.value))}
+                        onChange={(event) =>
+                          setSelectedAlbum(Number(event.target.value))
+                        }
                       >
-                        {album.map((albums: Albums) => (
-                          <MenuItem key={albums?.id} value={albums.id}>
-                            {albums?.title}
+                        {album.map((album) => (
+                          <MenuItem key={album.id} value={album.id}>
+                            {album.title}
                           </MenuItem>
                         ))}
                       </TextField>
                     </Grid>
                   </Grid>
-                  <Grid sx={{ display: "flex", gap: 2, marginBottom: 2 }} columnSpacing={3} container spacing={3}>
+                  <Grid container spacing={3} sx={{ marginBottom: 2 }}>
                     <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
                         label="Song Title"
@@ -264,10 +259,7 @@ if(!isClient){
                         defaultValue={edit?.song_title}
                         fullWidth
                         {...register("song_title", {
-                          required: {
-                            value: true,
-                            message: "full name",
-                          },
+                          required: "Song title is required",
                         })}
                       />
                     </Grid>
@@ -279,23 +271,20 @@ if(!isClient){
                         fullWidth
                         defaultValue={edit?.release_date}
                         {...register("release_date", {
-                          required: {
-                            value: true,
-                            message: "full name",
-                          },
+                          required: "Release date is required",
                         })}
                       />
                     </Grid>
                   </Grid>
-                  <Grid sx={{ display: "flex", gap: 2, marginBottom: 2 }} columnSpacing={3} container spacing={3}>
+                  <Grid container spacing={3} sx={{ marginBottom: 2 }}>
                     <Grid size={{ xs: 12, md: 6 }}>
                       <TextField
-                        label="song category"
+                        label="Song Category"
                         variant="filled"
                         fullWidth
                         defaultValue={edit?.song_category}
                         {...register("song_category", {
-                          required: true,
+                          required: "Category is required",
                         })}
                       />
                     </Grid>
@@ -304,7 +293,6 @@ if(!isClient){
                         type="file"
                         variant="filled"
                         fullWidth
-                        defaultValue={edit?.song_url}
                         helperText="Please select your song file"
                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
                           const file = event.target.files?.[0];
@@ -327,7 +315,7 @@ if(!isClient){
                         fontSize: "15px",
                       }}
                     >
-                      updated
+                      Update
                     </Button>
                   </Grid>
                 </Box>

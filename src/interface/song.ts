@@ -24,7 +24,9 @@ export interface SongType {
   song_img: string | File | null;
   song_url: string | File | null;
   id?:null| string | number;
-  album_id?: number | undefined
+  album_id?: number | undefined,
+  release_date:string | number
+
 }
 export interface CurrentType {
   user_id?: number | string;
