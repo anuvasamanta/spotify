@@ -3,21 +3,10 @@ import { Box, Typography } from "@mui/material";
 import React from "react";
 
 function CurrentTime() {
-  const CurrentTime: string | number = new Date().getHours();
-  let greetingMessage: string | number;
-  if (CurrentTime>=0 && CurrentTime <12) {
-    greetingMessage = "Good Morning!";
-  } else if (CurrentTime >=12 && CurrentTime<17) {
-    greetingMessage = "Good Afternoon!";
-  } else if(CurrentTime>=17 && CurrentTime<20) {
-    greetingMessage = "Good Evening!";
-  }else{
-    greetingMessage='Listen your favorite music !'
-  }
   return (
     <Box sx={{ color: "white" }}>
       <Typography variant="h4" sx={{ marginTop: "10px" }}>
-        Hello, {greetingMessage}
+        Hello, Listen your favorite music !
       </Typography>
       <Typography variant="body2">Welcom back</Typography>
     </Box>

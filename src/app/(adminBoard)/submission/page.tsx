@@ -23,8 +23,9 @@ export default function Submission() {
   const [album, setAlbums] = useState<Albums[]>([]);
   const [selectedAlbum, setSelectedAlbum] = useState<number | null>(null);
   const { register, handleSubmit, setValue, reset } = useForm();
-
+const [isClient,setIsClient]=useState(false);
   useEffect(() => {
+    setIsClient(true);
     const fetchAlbum = async () => {
       const { data, error } = await supabase.from("albums").select("*");
       if (error) {
@@ -118,7 +119,9 @@ export default function Submission() {
       reset();
     }
   };
-
+  if (!isClient) {
+    return null;
+  }
   return (
     <Container maxWidth="xl">
       <Box sx={{ display: "flex" }}>

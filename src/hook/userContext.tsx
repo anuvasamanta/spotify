@@ -101,24 +101,6 @@ export const AuthContextProvider = ({
     }
   };
 
-  // const handlePlay = (song: SongType | Song ) => {
-  //   if (audioRef.current) {
-  //     if (currentSong?.id === song.id) {
-  //       togglePlayPause()
-  //     } else {
-  //       audioRef.current.pause();
-  //       audioRef.current.currentTime = 0;
-  //       if (typeof song.song_url === 'string') {
-  //         audioRef.current.src = song.song_url;
-  //       } else {
-  //         console.error('Invalid song URL');
-  //       }
-  //       setCurrentSong(song);
-  //       setIsPlaying(true);
-  //       audioRef.current.play();
-  //     }
-  //   }
-  // };
   
   const handlePlay = (song: SongType | Song) => {
     // Check if audioRef is available
@@ -210,8 +192,8 @@ export const AuthContextProvider = ({
     }
   }, [setSong, setAlbums, fetchError]);
   // console.log("song",song);
-  // console.log(authToken);
-  // console.log(isLoading);
+  console.log(authToken);
+  console.log(isLoading);
   return (
     <AuthContext.Provider
       value={{

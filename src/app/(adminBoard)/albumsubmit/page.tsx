@@ -20,8 +20,9 @@ export default function AlbumSubmit() {
   const [userId, setUserId] = useState<number | null | string>(null);
   const { setAuthToken, setIsLoggedIn, setIsLoading } = MyAppHook();
   const { register, handleSubmit, setValue, reset } = useForm();
-
+  const [isClient,setIsClient]=useState(false);
   useEffect(() => {
+    setIsClient(true);
     const handelLoginSession = async () => {
       const { data, error } = await supabase.auth.getSession();
       if (error) {
@@ -80,7 +81,9 @@ export default function AlbumSubmit() {
     }
     reset();
   };
-
+  if (!isClient) {
+    return null;
+  }
   return (
     <Container maxWidth="xl">
       <Box sx={{ display: "flex" }}>

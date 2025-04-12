@@ -23,7 +23,7 @@ export interface SongType {
   song_category: string;
   song_img: string | File | null;
   song_url: string | File | null;
-  id?: null | number | string;
+  id?:null| string | number;
   album_id?: number | undefined
 }
 export interface CurrentType {

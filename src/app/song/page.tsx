@@ -19,14 +19,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { supabase } from "../../../lib/supabaseClient";
 
-const titleDescription = (song_title: string, wordLimit: number) => {
-  const words = song_title.split(" ");
-  if (words.length > wordLimit) {
-    return words.slice(0, wordLimit).join(" ") + "...";
-  }
-  return song_title;
-};
-export interface SongType {
+interface SongType {
   user_id?: number | string;
   album_title: string;
   artist_name: string;
@@ -34,12 +27,20 @@ export interface SongType {
   song_category: string;
   song_img: string | File | null;
   song_url: string | File | null;
-  id?: null | number | string;
-  album_id?: number | undefined
+  id?: string | number | null;
+  album_id?: number;
 }
+
+const titleDescription = (song_title: string, wordLimit: number): string => {
+  const words = song_title.split(" ");
+  if (words.length > wordLimit) {
+    return words.slice(0, wordLimit).join(" ") + "...";
+  }
+  return song_title;
+};
+
 function Songs() {
-  const { song, currentSong, isPlaying, audioRef, handlePlay, setIsPlaying } =
-    MyAppHook();
+  const { song, currentSong, isPlaying, audioRef, handlePlay, setIsPlaying } = MyAppHook();
   const [likes, setLikes] = useState<Record<string, boolean>>({});
 
   // Check initial like status for all songs
@@ -54,10 +55,10 @@ function Songs() {
         .eq('user_id', user.id);
 
       if (!error && data) {
-        const likedSongs = data.reduce((acc, item) => {
+        const likedSongs = data.reduce((acc: Record<string, boolean>, item: { song_id: string }) => {
           acc[item.song_id] = true;
           return acc;
-        }, {} as Record<string, boolean>);
+        }, {});
         setLikes(likedSongs);
       }
     };
@@ -113,11 +114,11 @@ function Songs() {
       columns={{ xs: 4, sm: 8, md: 12 }}
     >
       {song &&
-        song.map((data: SongType| any) => (
+        song.map((data: SongType) => (
           <Grid
             key={data?.id}
+          size={{xs:6,md:4,lg:3}}
             sx={{ margin: "20px 0px" }}
-            size={{ xs: 6, md: 4, lg: 3 }}
           >
             <ImageListItem key={data?.id} sx={{ height: "100px" }}>
               <Paper
@@ -132,7 +133,7 @@ function Songs() {
               >
                 <CardMedia
                   component="img"
-                  src={`${data?.song_img}`}
+                  src={data?.song_img as string}
                   alt="img"
                   sx={{ height: "160px" }}
                 />
@@ -152,26 +153,25 @@ function Songs() {
                     <PlayCircleOutlineIcon />
                   )}
                 </Button>
-
               </Paper>
               <IconButton 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleLike(data.id);
-                  }}
-                  sx={{
-                    position: 'absolute',
-                    top: 8,
-                    right: 8,
-                    color: likes[data.id] ? 'red' : 'white',
-                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                    '&:hover': {
-                      backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                    }
-                  }}
-                >
-                  {likes[data.id] ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                </IconButton>
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (data.id) handleLike(data.id.toString());
+                }}
+                sx={{
+                  position: 'absolute',
+                  top: 8,
+                  right: 8,
+                  color: data.id && likes[data.id.toString()] ? 'red' : 'white',
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                  '&:hover': {
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                  }
+                }}
+              >
+                {data.id && likes[data.id.toString()] ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+              </IconButton>
             </ImageListItem>
           </Grid>
         ))}

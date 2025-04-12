@@ -33,6 +33,7 @@ export default function Edit({ params }: CustomPageProps) {
   const { setAuthToken, setIsLoggedIn, setIsLoading } = MyAppHook();
   const [album, setAlbums] = useState<Albums[]>([]);
   const [selectedAlbum, setSelectedAlbum] = useState<number | null>(null);
+const [isClient, setIsClient] = useState(false);
   const { register, handleSubmit, setValue, reset } = useForm();
 
   const fetchSong = async () => {
@@ -48,6 +49,7 @@ export default function Edit({ params }: CustomPageProps) {
   };
 
   useEffect(() => {
+  setIsClient(true);
     const fetchAlbum = async () => {
       const { data, error } = await supabase.from("albums").select("*");
       if (error) {
@@ -96,7 +98,7 @@ export default function Edit({ params }: CustomPageProps) {
   const uploadAudioFile = async (file: File) => {
     const fileExtension = file.name.split(".").pop();
     const fileName = `${Date.now()}.${fileExtension}`;
-    const { data, error } = await supabase.storage
+    const { error } = await supabase.storage
       .from("song-url")
       .upload(fileName, file);
 
@@ -143,7 +145,9 @@ console.log(userId);
       reset();
     }
   };
-
+if (!isClient) {
+  return null;
+}
   return (
     <Container maxWidth="xl">
       <Box sx={{ display: "flex" }}>
