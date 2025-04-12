@@ -17,23 +17,39 @@ import toast from "react-hot-toast";
 import { supabase } from "../../../../../lib/supabaseClient";
 import Admin from "@/component/Admin";
 
-// Assuming this is where you get params as a Promise.
-type CustomPageProps = {
-  params: Promise<{
-    musicId: string;
-  }>;
-};
+// // Assuming this is where you get params as a Promise.
+// type CustomPageProps = {
+//   params: Promise<{
+//     musicId: string;
+//   }>;
+// };
 
-export default function Edit({ params }: CustomPageProps) {
-  // Unwrap the `params` Promise with `React.use()`.
-  const { musicId } = use(params);
+// export default function Edit({ params }: CustomPageProps) {
+//   // Unwrap the `params` Promise with `React.use()`.
+//   const { musicId } = use(params);
 
-  const [userId, setUserId] = useState<string | number | null>(null);
+//   const [userId, setUserId] = useState<string | number | null>(null);
+//   const [edit, setEdit] = useState<EditType | null>(null);
+//   const { setAuthToken, setIsLoggedIn, setIsLoading } = MyAppHook();
+//   const [album, setAlbums] = useState<Albums[]>([]);
+//   const [selectedAlbum, setSelectedAlbum] = useState<number | null>(null);
+//   const { register, handleSubmit, setValue, reset } = useForm();
+// Type definition remains simple since we'll use React.use()
+// Type definition remains simple since we'll use React.use()
+interface PageParams {
+  musicId: string;
+}
+
+export default function Edit({ params }: { params: Promise<PageParams> }) {
+  // Safely unwrap the params Promise with proper typing
+  const { musicId } = use<PageParams>(params);
+  const [userId, setUserId] = useState<string | null>(null);
   const [edit, setEdit] = useState<EditType | null>(null);
   const { setAuthToken, setIsLoggedIn, setIsLoading } = MyAppHook();
   const [album, setAlbums] = useState<Albums[]>([]);
   const [selectedAlbum, setSelectedAlbum] = useState<number | null>(null);
   const { register, handleSubmit, setValue, reset } = useForm();
+
 const [isClient,setIsClient]=useState(false);
   const fetchSong = useCallback(async () => {
     if (!musicId) return;
