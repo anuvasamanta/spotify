@@ -36,13 +36,13 @@ import Admin from "@/component/Admin";
 //   const { register, handleSubmit, setValue, reset } = useForm();
 // Type definition remains simple since we'll use React.use()
 // Type definition remains simple since we'll use React.use()
-interface PageParams {
+type PageParams = {
   musicId: string;
-}
+};
 
 export default function Edit({ params }: { params: Promise<PageParams> }) {
-  // Safely unwrap the params Promise with proper typing
-  const { musicId } = use<PageParams>(params);
+  // Unwrap the params promise
+  const { musicId } = use(params);
   const [userId, setUserId] = useState<string | null>(null);
   const [edit, setEdit] = useState<EditType | null>(null);
   const { setAuthToken, setIsLoggedIn, setIsLoading } = MyAppHook();
