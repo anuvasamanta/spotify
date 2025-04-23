@@ -11,31 +11,81 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import Link from "next/link";
 import { SongType } from "@/interface/song";
 
+// interface AlbumsType {
+//   id?: number | undefined;
+//   cover_img?: string | File | null; // Make cover_img optional
+//   title: string;
+// }
+
+// type CustomPageProps = {
+//   params?: {
+//     songId: string
+//   };
+// }; 
+
+// function AlbumSong({ params }: CustomPageProps) {
+//   const [unwrappedParams, setUnwrappedParams] = useState<CustomPageProps["params"] | null>(null);
+
+//   // Unwrap the params asynchronously using React.useEffect
+//   useEffect(() => {
+//     const fetchParams = async () => {
+//       const resolvedParams = await params; // Assuming params is a promise here
+//       setUnwrappedParams(resolvedParams);
+//     };
+//     fetchParams();
+//   }, [params]);
+
+//   // Call MyAppHook unconditionally here, so the hook's order stays the same across renders
+//   const {
+//     song,
+//     albums,
+//     currentSong,
+//     isPlaying,
+//     audioRef,
+//     handlePlay,
+//     setIsPlaying,
+//   } = MyAppHook();
+
+//   if (!unwrappedParams) {
+//     return <div>Loading...</div>; // Show loading until params are unwrapped
+//   }
+
+//   const { songId } = unwrappedParams;
+
+//   // Utility function to handle src for CardMedia
+//   const getImageSrc = (image: string | File | null | undefined): string => {
+//     if (image === null || image === undefined) {
+//       return "/default-image.png"; // Default image if null or undefined
+//     }
+//     if (typeof image === "string") {
+//       return image; // Return the image string if it's a URL
+//     }
+//     if (image instanceof File) {
+//       return URL.createObjectURL(image); // Convert File to URL
+//     }
+//     return "/default-image.png"; // Fallback default image
+//   };
+import { useParams } from 'next/navigation';
+
 interface AlbumsType {
-  id?: number | undefined;
-  cover_img?: string | File | null; // Make cover_img optional
+  id?: number;
+  cover_img?: string | File | null;
   title: string;
 }
 
-type CustomPageProps = {
-  params?: {
-    songId: string;
-  };
-}; 
+ function AlbumSong() {
+  const params = useParams();
+  const [songId, setSongId] = useState<string | null>(null);
 
-function AlbumSong({ params }: CustomPageProps) {
-  const [unwrappedParams, setUnwrappedParams] = useState<CustomPageProps["params"] | null>(null);
-
-  // Unwrap the params asynchronously using React.useEffect
+  // Get the songId from params
   useEffect(() => {
-    const fetchParams = async () => {
-      const resolvedParams = await params; // Assuming params is a promise here
-      setUnwrappedParams(resolvedParams);
-    };
-    fetchParams();
+    if (params?.songId) {
+      // Handle case where songId might be an array
+      const id = Array.isArray(params.songId) ? params.songId[0] : params.songId;
+      setSongId(id);
+    }
   }, [params]);
 
-  // Call MyAppHook unconditionally here, so the hook's order stays the same across renders
   const {
     song,
     albums,
@@ -46,26 +96,23 @@ function AlbumSong({ params }: CustomPageProps) {
     setIsPlaying,
   } = MyAppHook();
 
-  if (!unwrappedParams) {
-    return <div>Loading...</div>; // Show loading until params are unwrapped
+  if (!songId) {
+    return <div>Loading...</div>;
   }
 
-  const { songId } = unwrappedParams;
-
-  // Utility function to handle src for CardMedia
   const getImageSrc = (image: string | File | null | undefined): string => {
     if (image === null || image === undefined) {
-      return "/default-image.png"; // Default image if null or undefined
+      return "/default-image.png";
     }
     if (typeof image === "string") {
-      return image; // Return the image string if it's a URL
+      return image;
     }
     if (image instanceof File) {
-      return URL.createObjectURL(image); // Convert File to URL
+      return URL.createObjectURL(image);
     }
-    return "/default-image.png"; // Fallback default image
-  };
-
+    return "/default-image.png";
+  }
+  
   return (
     <Box className="coverColor">
       <Link href="/">
