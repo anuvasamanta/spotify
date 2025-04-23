@@ -142,7 +142,7 @@ function SignUp() {
           />
             {errors.password && <Box className='error'>{errors.password?.message?.toString()}</Box>}
           <Grid sx={{ display: "flex" }}>
-            <Button
+            {/* <Button
               type="submit"
               variant="contained"
               sx={{
@@ -156,7 +156,7 @@ function SignUp() {
               }}
             >
               <GoogleIcon sx={{ color: "black", fontSize: "32px" }} />
-            </Button>
+            </Button> */}
             <Button
               type="submit"
               variant="contained"
@@ -164,7 +164,7 @@ function SignUp() {
               sx={{
                 mt: 1,
                 backgroundColor: "rgba(37, 37, 37, 1)",
-                width: "376px",
+                width: "415px",
                 height: "48px",
                 borderRadius: "14px",
               }}
