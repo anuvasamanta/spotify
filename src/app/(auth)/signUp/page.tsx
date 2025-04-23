@@ -17,7 +17,6 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import GoogleIcon from "@mui/icons-material/Google";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../../../lib/supabaseClient";
 import '@/style/style.css'
