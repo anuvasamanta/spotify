@@ -18,18 +18,19 @@ import { MyAppHook } from "@/hook/userContext";
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { supabase } from "../../../lib/supabaseClient";
+import { AlbumSongType } from "@/interface/song";
 
-interface SongType {
-  user_id?: number | string;
-  album_title: string;
-  artist_name: string;
-  song_title: string;
-  song_category: string;
-  song_img: string | File | null;
-  song_url: string | File | null;
-  id?: string | number | null;
-  album_id?: number;
-}
+// interface AlbumSongType {
+//   user_id?: number | string;
+//   album_title: string;
+//   artist_name: string;
+//   song_title: string;
+//   song_category: string;
+//   song_img: string | File | null;
+//   song_url: string | File | null;
+//   id?: string | number | null;
+//   album_id?: number;
+// }
 
 const titleDescription = (song_title: string, wordLimit: number): string => {
   const words = song_title.split(" ");
@@ -114,7 +115,7 @@ function Songs() {
       columns={{ xs: 4, sm: 8, md: 12 }}
     >
       {song &&
-        song.map((data: SongType) => (
+        song.map((data: AlbumSongType) => (
           <Grid
             key={data?.id}
           size={{xs:6,md:4,lg:3}}

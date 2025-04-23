@@ -28,6 +28,19 @@ export interface SongType {
   release_date:string | number
 
 }
+export interface AlbumSongType {
+  user_id?: number | string;
+  album_title: string;
+  artist_name: string;
+  song_title: string;
+  song_category: string;
+  song_img: string | File | null;
+  song_url: string | File | null;
+  id?: string | number | null;
+  album_id?: number;
+  release_date:string | number
+}
+
 export interface CurrentType {
   user_id?: number | string;
   album_title: string;

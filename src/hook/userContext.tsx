@@ -1,6 +1,6 @@
 "use client";
 
-import { Albums, SongType } from "@/interface/song";
+import { Albums, AlbumSongType, SongType } from "@/interface/song";
 import { createContext, FormEvent, useContext, useEffect, useRef, useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
 import toast from "react-hot-toast";
@@ -23,14 +23,14 @@ interface UserContextType {
   currentSong: SongType | null | Song;
   isPlaying: boolean;
   audioRef: AudioRef;
-  handlePlay: (song: SongType | Song) => void
+  handlePlay: (song: SongType | Song | AlbumSongType) => void
   setIsPlaying: (state: boolean) => void;
   searchQuery: string | null | undefined;
   setSearchQuery: (state:string | null | undefined) => void;
   searchResult: SongType[] | Albums[] | null;
   setSearchResult: (state: SongType[] | Albums[] | null) => void;
-  selectedSong:  boolean | SongType[] | Albums[] | null;
-  setSelectedSong: (state: boolean) => void;
+  selectedSong?: SongType | Albums | null;
+  setSelectedSong: (state:null) => void;
   handelSearch: (event: FormEvent<HTMLFormElement>) => Promise<void>;
 }
 
@@ -55,7 +55,7 @@ export const AuthContextProvider = ({
 
   const [searchQuery, setSearchQuery] = useState<string | null | undefined >("");
   const [searchResult, setSearchResult] = useState<SongType[] | Albums[] | null>([]);
-  const [selectedSong, setSelectedSong] = useState<SongType[] | Albums[] | null | boolean >(null);
+  const [selectedSong, setSelectedSong] = useState<SongType| Albums | null >(null);
   
 
   // handel search
