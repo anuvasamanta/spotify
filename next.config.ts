@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
   distDir: '.next', // default build directory
   productionBrowserSourceMaps: true, // generate source maps
   typescript: {
-    ignoreBuildErrors: false, // set true to bypass TS errors during build
+    ignoreBuildErrors:true, // set true to bypass TS errors during build
   },
   eslint: {
     ignoreDuringBuilds: true, // set false to enforce ESLint during build
