@@ -11,6 +11,8 @@ import Songs from "./song/page";
 import CardSong from "@/component/CardSong";
 import Albums from "./albums/page";
 import SearchSong from "@/component/SearchSong";
+import Bengali from "@/component/Bengali";
+import Tranding from "@/component/Tranding";
 
 
 export default function Home() {
@@ -26,15 +28,101 @@ export default function Home() {
               {/* first section */}
             <CardSong/>
             {/* second section */}
-              <Typography variant="h5">
+              <Box sx={{ marginBottom: 4 }}>
+            <Typography 
+              variant="h4" 
+              sx={{
+                fontWeight: 600,
+                marginBottom: 1,
+                position: "relative",
+                "&:after": {
+                  content: '""',
+                  position: "absolute",
+                  bottom: -8,
+                  left: 0,
+                  width: "40px",
+                  height: "3px",
+                  background: "linear-gradient(90deg, #1db954, transparent)",
+                  borderRadius: 3
+                }
+              }}
+            >
               Music PlayList
-              </Typography>
-             <Songs/>
+            </Typography>
+            <Songs/>
+          </Box>
              {/* third section */}
-             <Typography variant="h5">
-             Popular albums
-              </Typography>
-              <Albums/>
+             <Box sx={{ marginBottom: 4 }}>
+            <Typography 
+              variant="h4" 
+              sx={{
+                fontWeight: 600,
+                marginBottom: 1,
+                position: "relative",
+                "&:after": {
+                  content: '""',
+                  position: "absolute",
+                  bottom: -8,
+                  left: 0,
+                  width: "40px",
+                  height: "3px",
+                  background: "linear-gradient(90deg, #1db954, transparent)",
+                  borderRadius: 3
+                }
+              }}
+            >
+             Popular Albums
+            </Typography>
+            <Albums/>
+          </Box>
+          {/* fourth section */}
+          <Box sx={{ marginBottom: 4 }}>
+            <Typography 
+              variant="h4" 
+              sx={{
+                fontWeight: 600,
+                marginBottom: 0,
+                position: "relative",
+                "&:after": {
+                  content: '""',
+                  position: "absolute",
+                  bottom:0,
+                  left: 0,
+                  width: "40px",
+                  height: "3px",
+                  background: "linear-gradient(90deg, #1db954, transparent)",
+                  borderRadius: 3
+                }
+              }}
+            >
+              Most Popular Bengali Songs
+            </Typography>
+            <Bengali/>
+          </Box>
+          {/* fifth section */}
+          <Box sx={{ marginBottom: 4 }}>
+            <Typography 
+              variant="h4" 
+              sx={{
+                fontWeight: 600,
+                marginBottom: 1,
+                position: "relative",
+                "&:after": {
+                  content: '""',
+                  position: "absolute",
+                  bottom: -8,
+                  left: 0,
+                  width: "40px",
+                  height: "3px",
+                  background: "linear-gradient(90deg, #1db954, transparent)",
+                  borderRadius: 3
+                }
+              }}
+            >
+              Recent Most Tranding Songs
+            </Typography>
+            <Tranding/>
+          </Box>
             </Grid>
           </Grid>
         </Container>

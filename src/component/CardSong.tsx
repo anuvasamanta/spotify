@@ -24,17 +24,20 @@ const titleDescription = (song_title: string, wordLimit: number) => {
 export default function CardSong() {
   const { song, currentSong, isPlaying, audioRef, handlePlay, setIsPlaying } =
     MyAppHook();
+    const hindiSongs = (song || []).filter(
+        (data): data is SongType => data?.song_category == "Hindi"
+      );
   return (
     <Grid
       container
       spacing={{ xs: 2, md: 3 }}
       columns={{ xs: 4, sm: 8, md: 12 }}
     >
-      {song &&
-        song.map((data:SongType| null) => {
+      {hindiSongs &&
+        hindiSongs.slice(0,6).map((data:SongType| null) => {
           if (data?.song_category === "Hindi") {
             return (
-              <Grid size={{ xs: 6, md: 4 }} key={data?.id}>
+              <Grid size={{ xs: 4, md: 4 }} key={data?.id}>
                 <Card
                   sx={{
                     display: "flex",

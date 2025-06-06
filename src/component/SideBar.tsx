@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 import "@/style/style.css";
 import SearchIcon from "@mui/icons-material/Search";
 import SearchBar from "./SearchBar";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 const drawerWidth = 240;
 
 export default function SideBar() {
@@ -77,6 +78,12 @@ export default function SideBar() {
               <ListItemText className="Navbar">Search</ListItemText>
             </ListItem>
           </Link>
+           <Link href="/likeSong" className="hovering" >
+            <ListItem>
+              <FavoriteIcon />{" "}
+              <ListItemText className="Navbar">Liked song</ListItemText>
+            </ListItem>
+          </Link>
         </List>
       </List>
     </Box>
@@ -127,6 +134,10 @@ export default function SideBar() {
               </Typography>
             ) : (
               <Typography variant="h6" noWrap component="div">
+                 <Link href="/contactUser" className="font">
+                  {" "}
+                   Contact Us
+                </Link>
                 <Link href="/signIn">
                   <Button
                     variant="contained"

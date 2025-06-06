@@ -1,24 +1,14 @@
-"use client";
-import {
-  Button,
-  Typography,
-  Grid,
-  Paper,
-  CardMedia,
-  IconButton,
-  Box,
-} from "@mui/material";
+import { MyAppHook } from '@/hook/userContext';
+import React, { useEffect, useState } from 'react'
+import { supabase } from '../../lib/supabaseClient';
+import toast from 'react-hot-toast';
+import { Box, Button, CardMedia, Grid, IconButton, Paper, Typography } from '@mui/material';
+import { AlbumSongType, SongType } from '@/interface/song';
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import "@/style/style.css";
-import { MyAppHook } from "@/hook/userContext";
-import { useState, useEffect } from "react";
-import { toast } from "react-hot-toast";
-import { supabase } from "../../../lib/supabaseClient";
-import { AlbumSongType } from "@/interface/song";
-
 const titleDescription = (song_title: string, wordLimit: number): string => {
   const words = song_title.split(" ");
   if (words.length > wordLimit) {
@@ -27,11 +17,11 @@ const titleDescription = (song_title: string, wordLimit: number): string => {
   return song_title;
 };
 
-function Songs() {
-  const { song, currentSong, isPlaying, audioRef, handlePlay, setIsPlaying } =
+function Bengali() {
+     const { song, currentSong, isPlaying, audioRef, handlePlay, setIsPlaying } =
     MyAppHook();
   const [likes, setLikes] = useState<Record<string, boolean>>({});
-  const [visibleSongs, setVisibleSongs] = useState(8); // Start with 8 songs visible
+  const [visibleSongs, setVisibleSongs] = useState(4); // Start with 8 songs visible
 
   const handleLoadMore = () => {
     setVisibleSongs((prev) => prev + 4); // Load 4 more songs
@@ -106,9 +96,13 @@ function Songs() {
     }
   };
   // console.log("likes",likes);
-
+const bengaliSongs = (song || []).filter(
+    (data): data is SongType => data?.song_category == "Bengali"
+  );
+//   console.log(bengaliSongs);
+  
   return (
-    <Grid
+     <Grid
       container
       spacing={{ xs: 2, md: 3 }}
       sx={{
@@ -125,7 +119,7 @@ function Songs() {
           minHeight: "calc(100vh - 64px)", // Adjust based on your header height
         }}
       >
-        {song?.slice(0, visibleSongs).map((data: AlbumSongType) => (
+        {bengaliSongs?.slice(0, visibleSongs).map((data: AlbumSongType) => (
           <Grid
             size={{ xs: 6, sm: 6, md: 4, lg: 3 }}
             key={data?.id}
@@ -148,7 +142,7 @@ function Songs() {
                 backgroundColor: "rgba(30, 30, 30, 0.8)",
                 color: "white",
                 borderRadius: "12px",
-                height: "95%",
+                height: "85%",
                 display: "flex",
                 flexDirection: "column",
                 overflow: "hidden",
@@ -184,7 +178,7 @@ function Songs() {
                   }}
                   sx={{
                     position: "absolute",
-                    top: 2,
+                    top: 0,
                     right: 8,
                     color:
                       data.id && likes[data.id.toString()]
@@ -250,7 +244,7 @@ function Songs() {
                   onClick={() => handlePlay(data)}
                   sx={{
                     color: "#1db954",
-                    padding: "8px",
+                    padding: "3px",
                     minWidth: 0,
                     opacity: currentSong?.id === data.id ? 1 : 0.8,
                     transition: "all 0.3s ease",
@@ -289,7 +283,7 @@ function Songs() {
         {song && song.length > visibleSongs && (
           <Grid
             size={{ xs: 12 }}
-            sx={{ display: "flex", justifyContent: "center", mt: 3 }}
+            sx={{ display: "flex", justifyContent: "center", mt: 0 }}
           >
             <Button
               variant="contained"
@@ -300,6 +294,7 @@ function Songs() {
                 borderRadius: "20px",
                 px: 4,
                 py: 1,
+                height:45,
                 "&:hover": {
                   backgroundColor: "#1ed760",
                   transform: "scale(1.03)",
@@ -314,7 +309,7 @@ function Songs() {
         <audio ref={audioRef} onEnded={() => setIsPlaying(false)} />
       </Grid>
     </Grid>
-  );
+  )
 }
 
-export default Songs;
+export default Bengali
